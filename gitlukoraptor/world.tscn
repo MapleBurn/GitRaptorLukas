@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bg6jd0fhav87l"]
+
+[node name="world" type="Node2D"]
+
+[node name="SpinBox" type="SpinBox" parent="."]
+offset_right = 83.0625
+offset_bottom = 31.0
