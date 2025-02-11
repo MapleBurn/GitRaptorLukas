@@ -1,3 +1,24 @@
-[gd_scene format=3 uid="uid://bg6jd0fhav87l"]
+[gd_scene load_steps=4 format=3 uid="uid://bg6jd0fhav87l"]
+
+[ext_resource type="PackedScene" uid="uid://bj0mtps3qdyo1" path="res://raptor.tscn" id="1_v7387"]
+[ext_resource type="Texture2D" uid="uid://dlnhqbxx02qdr" path="res://icon.svg" id="2_thaiq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i6324"]
+size = Vector2(1150, 123)
 
 [node name="world" type="Node2D"]
+
+[node name="raptor" parent="." instance=ExtResource("1_v7387")]
+position = Vector2(227, 235)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(214, 227)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(362, 351.5)
+shape = SubResource("RectangleShape2D_i6324")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(363.75, 351)
+scale = Vector2(8.97266, 1)
+texture = ExtResource("2_thaiq")
