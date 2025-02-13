@@ -1,5 +1,6 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1739274876
+::res://::1739433007
 icon.svg::CompressedTexture2D::7958629922685634751::1739274128::1739274272::1::::<><>::
-raptor.tscn::PackedScene::3070493071234728558::1739274435::0::1::::<><>::uid://dlnhqbxx02qdr::::res://icon.svg
-world.tscn::PackedScene::2872102587340449559::1739274435::0::1::::<><>::
+Raptor.cs::CSharpScript::-1::1739275118::0::1::::<>CharacterBody2D<>::
+raptor.tscn::PackedScene::3070493071234728558::1739275127::0::1::::<><>::uid://dlnhqbxx02qdr::::res://icon.svg<>res://Raptor.cs
+world.tscn::PackedScene::2872102587340449559::1739275127::0::1::::<><>::uid://bj0mtps3qdyo1::::res://raptor.tscn<>uid://dlnhqbxx02qdr::::res://icon.svg

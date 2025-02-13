@@ -3,7 +3,7 @@ using System;
 
 public partial class Raptor : CharacterBody2D
 {
-	public const float Speed = 300.0f;
+	public const float Speed = 3000.0f;
 	public const float JumpVelocity = -400.0f;
 
 	public override void _PhysicsProcess(double delta)
@@ -24,10 +24,11 @@ public partial class Raptor : CharacterBody2D
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+		Vector2 direction = new Vector2(1, 0);
 		if (direction != Vector2.Zero)
 		{
-			velocity.X = direction.X * Speed;
+			if (IsOnFloor())
+				velocity.X = direction.X * Speed;
 		}
 		else
 		{
