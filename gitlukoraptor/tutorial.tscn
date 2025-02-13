@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg6jd0fhav87l"]
+
+[ext_resource type="PackedScene" uid="uid://bj0mtps3qdyo1" path="res://raptor.tscn" id="1_j75u7"]
+[ext_resource type="PackedScene" uid="uid://f3adx4gfdxhi" path="res://tile.tscn" id="2_rh7qu"]
+
+[node name="tutorial" type="Node2D"]
+
+[node name="raptor" parent="." instance=ExtResource("1_j75u7")]
+position = Vector2(207, 227)
+
+[node name="Camera2D" type="Camera2D" parent="raptor"]
+
+[node name="tile" parent="." instance=ExtResource("2_rh7qu")]
+position = Vector2(575, 589)
+
+[node name="tile2" parent="." instance=ExtResource("2_rh7qu")]
+position = Vector2(1675, 448)
+rotation = -0.253073
+
+[node name="tile3" parent="." instance=ExtResource("2_rh7qu")]
+position = Vector2(2565, -94)
+rotation = -0.849975

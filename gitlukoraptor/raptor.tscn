@@ -1,19 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://bj0mtps3qdyo1"]
 
-[ext_resource type="Texture2D" uid="uid://dlnhqbxx02qdr" path="res://icon.svg" id="1_12lfr"]
 [ext_resource type="Script" path="res://Raptor.cs" id="1_63bfe"]
+[ext_resource type="Texture2D" uid="uid://cogky7n3a1n7e" path="res://raptor.jpg" id="2_mx75i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nl400"]
-size = Vector2(177, 71)
+size = Vector2(159, 58)
 
 [node name="raptor" type="CharacterBody2D"]
 script = ExtResource("1_63bfe")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(26, -29)
-scale = Vector2(1.40625, 0.546875)
-texture = ExtResource("1_12lfr")
+modulate = Color(0.923952, 0.912109, 0, 1)
+scale = Vector2(0.585185, 0.395059)
+texture = ExtResource("2_mx75i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(27.5, -29.5)
+position = Vector2(0.5, -1)
 shape = SubResource("RectangleShape2D_nl400")
