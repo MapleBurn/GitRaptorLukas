@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8cms1wu7ydc6"]
+
+[ext_resource type="Texture2D" uid="uid://fd8p826qilu6" path="res://assets/pleb.png" id="1_n1318"]
+[ext_resource type="Script" path="res://scripts/Pleb.cs" id="1_twbch"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cnkod"]
+size = Vector2(10, 14)
+
+[node name="Pleb" type="CharacterBody2D"]
+script = ExtResource("1_twbch")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_n1318")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_cnkod")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0

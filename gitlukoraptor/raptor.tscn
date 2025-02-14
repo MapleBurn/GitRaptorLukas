@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bj0mtps3qdyo1"]
 
 [ext_resource type="Script" path="res://Raptor.cs" id="1_63bfe"]
-[ext_resource type="Texture2D" uid="uid://cogky7n3a1n7e" path="res://raptor.jpg" id="2_mx75i"]
+[ext_resource type="Texture2D" uid="uid://cogky7n3a1n7e" path="res://assets/raptor.jpg" id="2_mx75i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nl400"]
 size = Vector2(159, 58)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cogky7n3a1n7e"
-path="res://.godot/imported/raptor.jpg-2fd54b035807f92077893b26696abb24.ctex"
+uid="uid://fd8p826qilu6"
+path="res://.godot/imported/pleb.png-ca8422a8e5c05d5c2d874a17823dda12.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://raptor.jpg"
-dest_files=["res://.godot/imported/raptor.jpg-2fd54b035807f92077893b26696abb24.ctex"]
+source_file="res://assets/pleb.png"
+dest_files=["res://.godot/imported/pleb.png-ca8422a8e5c05d5c2d874a17823dda12.ctex"]
 
 [params]
 

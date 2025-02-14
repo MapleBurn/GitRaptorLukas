@@ -13,8 +13,12 @@ config_version=5
 config/name="GitLukoraptor"
 run/main_scene="res://tutorial.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://assets/icon.svg"
 
 [dotnet]
 
 project/assembly_name="GitLukoraptor"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
