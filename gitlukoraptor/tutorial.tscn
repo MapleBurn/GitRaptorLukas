@@ -25,3 +25,5 @@ rotation = -0.849975
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

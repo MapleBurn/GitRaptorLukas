@@ -1,3 +1,6 @@
 res://tutorial.tscn
 res://Raptor.cs
 res://Tutorial.cs
+res://raptor.tscn
+res://tile.tscn
+res://world_1.tscn
