@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\holanmi\\Documents\\GitHub\\GitRaptorLukas\\gitlukoraptor\\GitLukoraptor.csproj": {}
+    "C:\\Users\\cikanlu\\Documents\\GitHub\\GitRaptorLukas\\gitlukoraptor\\GitLukoraptor.csproj": {}
   },
   "projects": {
-    "C:\\Users\\holanmi\\Documents\\GitHub\\GitRaptorLukas\\gitlukoraptor\\GitLukoraptor.csproj": {
+    "C:\\Users\\cikanlu\\Documents\\GitHub\\GitRaptorLukas\\gitlukoraptor\\GitLukoraptor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\holanmi\\Documents\\GitHub\\GitRaptorLukas\\gitlukoraptor\\GitLukoraptor.csproj",
+        "projectUniqueName": "C:\\Users\\cikanlu\\Documents\\GitHub\\GitRaptorLukas\\gitlukoraptor\\GitLukoraptor.csproj",
         "projectName": "GitLukoraptor",
-        "projectPath": "C:\\Users\\holanmi\\Documents\\GitHub\\GitRaptorLukas\\gitlukoraptor\\GitLukoraptor.csproj",
-        "packagesPath": "C:\\Users\\holanmi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\holanmi\\Documents\\GitHub\\GitRaptorLukas\\gitlukoraptor\\.godot\\mono\\temp\\obj\\",
+        "projectPath": "C:\\Users\\cikanlu\\Documents\\GitHub\\GitRaptorLukas\\gitlukoraptor\\GitLukoraptor.csproj",
+        "packagesPath": "C:\\Users\\cikanlu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cikanlu\\Documents\\GitHub\\GitRaptorLukas\\gitlukoraptor\\.godot\\mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\holanmi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cikanlu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

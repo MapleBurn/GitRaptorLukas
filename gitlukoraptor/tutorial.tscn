@@ -9,6 +9,7 @@ script = ExtResource("1_mp61a")
 
 [node name="raptor" parent="." instance=ExtResource("1_j75u7")]
 position = Vector2(207, 227)
+floor_max_angle = 0.872665
 
 [node name="Camera2D" type="Camera2D" parent="raptor"]
 
@@ -23,7 +24,18 @@ rotation = -0.253073
 position = Vector2(2565, -94)
 rotation = -0.849975
 
+[node name="tile4" parent="." instance=ExtResource("2_rh7qu")]
+position = Vector2(3473, -504)
+
 [node name="Timer" type="Timer" parent="."]
 autostart = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 4229.0
+offset_top = -664.0
+offset_right = 4333.0
+offset_bottom = -640.0
+bbcode_enabled = true
+text = "Raptor game"
 
 [connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]
