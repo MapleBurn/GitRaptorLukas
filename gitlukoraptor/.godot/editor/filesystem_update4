@@ -1,4 +1,12 @@
-res://world_1.tscn
-res://tile.tscn
 res://pleb.tscn
+res://tutorial.tscn
 res://raptor.tscn
+res://tile.tscn
+res://world_1.tscn
+res://scenes/spawner.tscn
+res://Raptor.cs
+res://scripts/Pleb.cs
+res://Spawner.cs
+res://Tutorial.cs
+res://scenes/player.tscn
+res://Player.cs
