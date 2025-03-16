@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GitLukoraptor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c30bf3c4e1b3237363c32cc44d210f26e2695d0e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c16626d64045c89fb397dd416656d20ee37cf379")]
 [assembly: System.Reflection.AssemblyProductAttribute("GitLukoraptor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GitLukoraptor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

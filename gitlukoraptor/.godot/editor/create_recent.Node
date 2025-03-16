@@ -1,3 +1,6 @@
+NoiseGenerator
+TilemapGaeaRenderer
+TileMapLayer
 Timer
 CollisionShape2D
 Camera2D

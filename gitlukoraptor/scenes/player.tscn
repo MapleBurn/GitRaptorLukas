@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bjk3805qy6faw"]
 
-[ext_resource type="Script" path="res://Player.cs" id="1_1pi43"]
+[ext_resource type="Script" path="res://scripts/Player.cs" id="1_1pi43"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qbo6i"]
 
@@ -11,7 +11,6 @@ motion_mode = 1
 script = ExtResource("1_1pi43")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_qbo6i")
