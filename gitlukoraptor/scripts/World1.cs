@@ -20,5 +20,6 @@ public partial class World1 : Node2D
 
 	private void genNoise()
 	{
+		
 	}
 }
