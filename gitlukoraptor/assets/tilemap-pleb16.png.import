@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cogky7n3a1n7e"
-path="res://.godot/imported/raptor.jpg-0af717f8b19b08b4bd924f9c0d4f0e5e.ctex"
+uid="uid://dfobdqcm2s803"
+path="res://.godot/imported/tilemap-pleb16.png-dba99b5fd43b1aeebb2d493358e5345c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/raptor.jpg"
-dest_files=["res://.godot/imported/raptor.jpg-0af717f8b19b08b4bd924f9c0d4f0e5e.ctex"]
+source_file="res://assets/tilemap-pleb16.png"
+dest_files=["res://.godot/imported/tilemap-pleb16.png-dba99b5fd43b1aeebb2d493358e5345c.ctex"]
 
 [params]
 

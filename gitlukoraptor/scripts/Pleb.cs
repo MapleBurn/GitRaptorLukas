@@ -39,6 +39,7 @@ public partial class Pleb : CharacterBody2D
 	{
 		//direction = new Vector2((int)(rdm.Next(-100, 100) / 100), (int)(rdm.Next(-100, 100) / 100));
 		
+		
 		timer.WaitTime = (double)rdm.Next(1, 5) / 10;
 	}
 }
