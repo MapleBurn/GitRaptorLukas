@@ -12,6 +12,7 @@ public partial class Pleb : CharacterBody2D
 	public override void _Ready()
 	{ 
 		timer = GetNode<Timer>("moveTime");
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,6 +38,7 @@ public partial class Pleb : CharacterBody2D
 	private void MoveTime_Tick()
 	{
 		//direction = new Vector2((int)(rdm.Next(-100, 100) / 100), (int)(rdm.Next(-100, 100) / 100));
+		
 		timer.WaitTime = (double)rdm.Next(1, 5) / 10;
 	}
 }

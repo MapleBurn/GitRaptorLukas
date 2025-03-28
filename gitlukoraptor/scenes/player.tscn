@@ -1,23 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjk3805qy6faw"]
+[gd_scene load_steps=3 format=3 uid="uid://bjk3805qy6faw"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_1pi43"]
-[ext_resource type="PackedScene" uid="uid://dq1qa4pb70brt" path="res://scenes/ui.tscn" id="2_2lnlt"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qbo6i"]
 
 [node name="player" type="CharacterBody2D"]
-collision_layer = 0
-collision_mask = 0
+position = Vector2(960, 540)
+collision_mask = 2
+input_pickable = true
 motion_mode = 1
 script = ExtResource("1_1pi43")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="UI" parent="Camera2D" instance=ExtResource("2_2lnlt")]
-offset_left = -576.0
-offset_top = -323.0
-offset_right = 576.0
-offset_bottom = 323.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_qbo6i")

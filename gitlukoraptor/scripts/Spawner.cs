@@ -17,11 +17,13 @@ public partial class Spawner : Node2D
 		
 	}
 
-	private void OnTimerTimeout()
+	public void SpawnPleb(Vector2 pos)
 	{
 		Pleb pleb = (Pleb)_pleb.Instantiate();
-		this.AddChild(pleb);
+		AddChild(pleb);
 		pleb.ZIndex = 100;
-		pleb.Position = new Vector2(30, 30);
+		pleb.Position = pos;
 	}
+
+	private void OnTimerTimeout() { }
 }
