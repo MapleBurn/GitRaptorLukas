@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c8cms1wu7ydc6"]
 
-[ext_resource type="Script" path="res://scripts/Pleb.cs" id="1_us0bb"]
+[ext_resource type="Script" uid="uid://dyfwlxp8bvniu" path="res://scripts/Pleb.cs" id="1_us0bb"]
 [ext_resource type="Texture2D" uid="uid://fd8p826qilu6" path="res://assets/pleb.png" id="2_vaya7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnkod"]
