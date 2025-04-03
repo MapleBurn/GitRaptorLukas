@@ -8,6 +8,7 @@ public partial class World1 : Node2D
 	private bool isToggledPleb = false;
 	[Export] public Node _generator;
 	[Export] public Spawner _spawner;
+	[Export] public Camera2D _camera;
 	
 	public override void _Ready()
 	{
@@ -23,6 +24,16 @@ public partial class World1 : Node2D
 			Vector2 mousePos = GetGlobalMousePosition();
 			if  (isToggledPleb)
 				_spawner.SpawnPleb(mousePos);
+		}
+		else if (@event is InputEventMouse && @event.IsAction("MouseWheelUp"))
+		{
+			if (_camera.Zoom.X <= 10)
+				_camera.Zoom += new Vector2(0.5f, 0.5f);
+		}
+		else if (@event is InputEventMouse && @event.IsAction("MouseWheelDown"))
+		{
+			if (_camera.Zoom.X >= 0)
+				_camera.Zoom -= new Vector2(0.5f, 0.5f);
 		}
 	}
 
