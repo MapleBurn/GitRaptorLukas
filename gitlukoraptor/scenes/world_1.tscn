@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://b2vpmxnpph62p"]
+[gd_scene load_steps=37 format=3 uid="uid://b2vpmxnpph62p"]
 
 [ext_resource type="Script" uid="uid://bxnhnxu6xaii3" path="res://addons/gaea/renderers/2D/tilemap_gaea_renderer.gd" id="1_mibss"]
 [ext_resource type="Script" uid="uid://bknpty6ymv6ba" path="res://scripts/World1.cs" id="1_ymduc"]
@@ -12,8 +12,9 @@
 [ext_resource type="Script" uid="uid://bp0pm5nrc5mae" path="res://addons/gaea/generators/2D/noise_generator/noise_generator_settings.gd" id="8_4hti1"]
 [ext_resource type="Script" uid="uid://c7bw3otjbdic1" path="res://addons/gaea/generators/2D/noise_generator/noise_generator_data.gd" id="9_6gmkp"]
 [ext_resource type="Script" uid="uid://copwy85s3g8xd" path="res://addons/gaea/tile_info/tilemap_tile_info.gd" id="10_cq7ai"]
-[ext_resource type="PackedScene" uid="uid://dq1qa4pb70brt" path="res://scenes/ui.tscn" id="12_1ftvn"]
 [ext_resource type="PackedScene" uid="uid://cv57wkyhn3j03" path="res://scenes/bush_spawner.tscn" id="14_ekkqh"]
+[ext_resource type="PackedScene" uid="uid://ccwrkj3si2lij" path="res://scenes/hud.tscn" id="14_l6637"]
+[ext_resource type="Script" uid="uid://endklfigkr16" path="res://scripts/Ui.cs" id="15_l6637"]
 
 [sub_resource type="Image" id="Image_ekkqh"]
 data = {
@@ -185,11 +186,12 @@ physics_layer_0/collision_layer = 4
 physics_layer_0/collision_mask = 0
 sources/1 = SubResource("TileSetAtlasSource_w0i4s")
 
-[node name="world1" type="Node2D" node_paths=PackedStringArray("_generator", "_spawner", "_camera")]
+[node name="world1" type="Node2D" node_paths=PackedStringArray("_generator", "_spawner", "_camera", "_player")]
 script = ExtResource("1_ymduc")
 _generator = NodePath("worldgen/NoiseGenerator")
 _spawner = NodePath("spawner")
 _camera = NodePath("player/Camera2D")
+_player = NodePath("player")
 
 [node name="worldgen" type="Node" parent="."]
 
@@ -211,24 +213,26 @@ tile_map_layers = [NodePath("../GroundTiles")]
 generator = NodePath("../NoiseGenerator")
 
 [node name="spawner" parent="." instance=ExtResource("2_y1udj")]
+z_index = 1
+y_sort_enabled = true
 
 [node name="player" parent="." instance=ExtResource("3_pl3yb")]
 position = Vector2(253, 139)
+Speed = 500.0
 
 [node name="Camera2D" type="Camera2D" parent="player"]
 position_smoothing_enabled = true
 
-[node name="UI" parent="player/Camera2D" instance=ExtResource("12_1ftvn")]
-offset_left = -640.0
-offset_top = 220.0
-offset_right = 640.0
-offset_bottom = 320.0
-
 [node name="bushSpawner" parent="." node_paths=PackedStringArray("GroundTiles") instance=ExtResource("14_ekkqh")]
+z_index = 1
+y_sort_enabled = true
 GroundTiles = NodePath("../worldgen/GroundTiles")
+
+[node name="Hud" parent="." instance=ExtResource("14_l6637")]
+script = ExtResource("15_l6637")
 
 [node name="GameTick" type="Timer" parent="."]
 autostart = true
 
 [connection signal="generation_finished" from="worldgen/NoiseGenerator" to="bushSpawner" method="GenerationFinished"]
-[connection signal="BtnPlebPressed" from="player/Camera2D/UI" to="." method="btnPlebPressed"]
+[connection signal="BtnPlebPressed" from="Hud" to="." method="BtnPlebPressed"]
