@@ -5,14 +5,21 @@ public partial class Pleb : CharacterBody2D
 {
 	private Random rdm = new Random();
 	private const float Speed = 50f;
-	private Timer timer;
 	private Vector2 direction = Vector2.Zero;
+	public Timer gameTimer;
+	private Label lblDebug;
+	
+	//pleb stats
+	private int health = 100;
+	private int hunger = 100;
+	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
-	{ 
-		timer = GetNode<Timer>("moveTime");
-		
+	{
+		gameTimer = GetNode<Timer>("/root/world1/GameTick");
+		lblDebug = GetNode<Label>("Label");
+		gameTimer.Timeout += () => gameTimer_Tick();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -34,12 +41,24 @@ public partial class Pleb : CharacterBody2D
 		Velocity = velocity;
 		MoveAndSlide();
 	}
-
-	private void MoveTime_Tick()
+	private void gameTimer_Tick()
 	{
-		//direction = new Vector2((int)(rdm.Next(-100, 100) / 100), (int)(rdm.Next(-100, 100) / 100));
+		if (health <= 0)
+		{
+			Die();
+			return;
+		}
+		if  (hunger <= 0)
+			health--;
+		else
+			hunger--;
 		
-		
-		timer.WaitTime = (double)rdm.Next(1, 5) / 10;
+		lblDebug.Text = "Hunger: " + hunger + "\nHealth: " + health;
 	}
+
+	private void Die()
+	{
+		QueueFree();
+	}
+	
 }

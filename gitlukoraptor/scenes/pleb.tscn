@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://c8cms1wu7ydc6"]
 
 [ext_resource type="Script" uid="uid://dyfwlxp8bvniu" path="res://scripts/Pleb.cs" id="1_us0bb"]
-[ext_resource type="Texture2D" uid="uid://fd8p826qilu6" path="res://assets/pleb.png" id="2_vaya7"]
+[ext_resource type="Texture2D" uid="uid://juo11nra0k2x" path="res://assets/pleb_idle.png" id="2_d22m4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnkod"]
-size = Vector2(10, 14)
+size = Vector2(12, 15)
 
 [node name="Pleb" type="CharacterBody2D"]
 collision_layer = 8
@@ -12,14 +12,17 @@ collision_mask = 0
 script = ExtResource("1_us0bb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_vaya7")
+texture = ExtResource("2_d22m4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
+position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_cnkod")
 
-[node name="moveTime" type="Timer" parent="."]
-wait_time = 0.1
-autostart = true
-
-[connection signal="timeout" from="moveTime" to="." method="MoveTime_Tick"]
+[node name="Label" type="Label" parent="."]
+offset_left = -31.0
+offset_top = -58.0
+offset_right = 31.0
+offset_bottom = -9.0
+text = "Hunger:
+Health:"
+horizontal_alignment = 1
