@@ -4,7 +4,7 @@ using System.Threading;
 
 public partial class World1 : Node2D
 {
-	private Thread thread;
+	//private Thread thread;
 	private bool isToggledPleb = false;
 	[Export] public Node _generator;
 	[Export] public Spawner _spawner;

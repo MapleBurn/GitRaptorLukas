@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8cms1wu7ydc6"]
+[gd_scene load_steps=5 format=3 uid="uid://c8cms1wu7ydc6"]
 
 [ext_resource type="Script" uid="uid://dyfwlxp8bvniu" path="res://scripts/Pleb.cs" id="1_us0bb"]
 [ext_resource type="Texture2D" uid="uid://juo11nra0k2x" path="res://assets/pleb_idle.png" id="2_d22m4"]
+[ext_resource type="Script" uid="uid://cvyusjv6pw35h" path="res://scripts/StateMachine.cs" id="3_tp18g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnkod"]
 size = Vector2(12, 15)
@@ -27,3 +28,6 @@ offset_bottom = -9.0
 text = "Hunger:
 Health:"
 horizontal_alignment = 1
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_tp18g")

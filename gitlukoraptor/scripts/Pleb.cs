@@ -13,16 +13,14 @@ public partial class Pleb : CharacterBody2D
 	private int health = 100;
 	private int hunger = 100;
 	
-
-	// Called when the node enters the scene tree for the first time.
+	
 	public override void _Ready()
 	{
 		gameTimer = GetNode<Timer>("/root/world1/GameTick");
 		lblDebug = GetNode<Label>("Label");
 		gameTimer.Timeout += () => gameTimer_Tick();
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
@@ -41,6 +39,7 @@ public partial class Pleb : CharacterBody2D
 		Velocity = velocity;
 		MoveAndSlide();
 	}
+	
 	private void gameTimer_Tick()
 	{
 		if (health <= 0)
