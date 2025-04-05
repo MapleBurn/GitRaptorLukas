@@ -9,6 +9,7 @@ public partial class World1 : Node2D
 	[Export] public Node _generator;
 	[Export] public Spawner _spawner;
 	[Export] public Camera2D _camera;
+	[Export] public Player _player;
 	
 	public override void _Ready()
 	{
@@ -19,7 +20,7 @@ public partial class World1 : Node2D
 	public override void _Input(InputEvent @event)
 	{
 		//base._Input(@event);
-		if (@event is InputEventMouseButton && @event.IsPressed() && @event.IsActionPressed("clickLeft"))
+		if (@event is InputEventMouseButton && @event.IsPressed() && @event.IsActionPressed("clickLeft")) //předělal bych na signál a získal v spawneru
 		{
 			Vector2 mousePos = GetGlobalMousePosition();
 			if  (isToggledPleb)
@@ -27,17 +28,21 @@ public partial class World1 : Node2D
 		}
 		else if (@event is InputEventMouse && @event.IsAction("MouseWheelUp"))
 		{
-			if (_camera.Zoom.X <= 10)
-				_camera.Zoom += new Vector2(0.5f, 0.5f);
+			if (_camera.Zoom.X <= 5){
+				_camera.Zoom *= 1.25f;
+				_player.Speed /= 1.25f;
+			}
 		}
 		else if (@event is InputEventMouse && @event.IsAction("MouseWheelDown"))
 		{
-			if (_camera.Zoom.X >= 0)
-				_camera.Zoom -= new Vector2(0.5f, 0.5f);
+			if (_camera.Zoom.X >= 0.1f){
+				_camera.Zoom /= 1.25f; 
+				_player.Speed *= 1.25f;
+			}
 		}
 	}
 
-	private void btnPlebPressed()
+	private void BtnPlebPressed()  // může být ve spawneru
 	{
 		isToggledPleb = !isToggledPleb;
 		/*if (!isToggledPleb)

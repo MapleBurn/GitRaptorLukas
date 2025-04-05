@@ -9,6 +9,7 @@ size = Vector2(12, 15)
 [node name="Pleb" type="CharacterBody2D"]
 collision_layer = 8
 collision_mask = 0
+input_pickable = true
 script = ExtResource("1_us0bb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
