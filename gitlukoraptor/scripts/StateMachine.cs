@@ -4,6 +4,7 @@ using Godot.Collections;
 
 public partial class StateMachine : Node
 {
+    [Export] private State inicialState;
     private State currentState;
     private Dictionary<string, State> states = new Dictionary<string, State>();
 
@@ -14,8 +15,14 @@ public partial class StateMachine : Node
             if (child is State)
             {
                 states[child.Name] = child as State;
-                child.Connect(State.SignalName.StateChanged, Callable.From(StateChanged));
+                //child.Connect(State.SignalName.StateChanged, Callable.From(StateChanged));
             }
+        }
+
+        if (inicialState != null)
+        {
+            inicialState.Enter();
+            currentState = inicialState;
         }
     }
 
@@ -31,8 +38,24 @@ public partial class StateMachine : Node
             currentState.PhysicsUpdate(delta);
     }
 
-    public void StateChanged()
+    public void StateChanged(State state, string newStateName)
     {
+        if (state != currentState)
+        {
+            return;
+        }
+        State newState = states[newStateName];
+        if (newState == null)
+        {
+            return;
+        }
+
+        if (currentState != null)
+        {
+            currentState.Exit();
+        }
         
+        newState.Enter();
+        currentState = newState;
     }
 }

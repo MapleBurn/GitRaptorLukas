@@ -55,10 +55,11 @@ public partial class Pleb : CharacterBody2D
 		lblDebug.Text = "Hunger: " + hunger + "\nHealth: " + health;
 	}
 
-	public override void _Input(InputEvent @event) //provádí s  globálně !!!
+	public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
 	{
 		if (@event is InputEventMouseButton && @event.IsPressed() && @event.IsActionPressed("clickRight"))
 		{
+			//GD.Print($"Clicked on Pleb: {Name} (Instance ID: {GetInstanceId()})");
 			lblDebug.Visible = !lblDebug.Visible;
 		}
 	}

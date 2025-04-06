@@ -4,6 +4,7 @@ using System;
 public partial class Spawner : Node2D
 { 
 	private PackedScene _pleb;
+	public bool isToggledPleb = false;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -23,6 +24,11 @@ public partial class Spawner : Node2D
 		AddChild(pleb);
 		pleb.ZIndex = 100;
 		pleb.Position = pos;
+	}
+	
+	private void BtnPlebPressed()
+	{
+		isToggledPleb = !isToggledPleb;
 	}
 
 	private void OnTimerTimeout() { }

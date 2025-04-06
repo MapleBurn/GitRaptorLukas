@@ -5,7 +5,6 @@ using System.Threading;
 public partial class World1 : Node2D
 {
 	//private Thread thread;
-	private bool isToggledPleb = false;
 	[Export] public Node _generator;
 	[Export] public Spawner _spawner;
 	[Export] public Camera2D _camera;
@@ -20,10 +19,10 @@ public partial class World1 : Node2D
 	public override void _Input(InputEvent @event)
 	{
 		//base._Input(@event);
-		if (@event is InputEventMouseButton && @event.IsPressed() && @event.IsActionPressed("clickLeft")) //předělal bych na signál a získal v spawneru
+		if (@event is InputEventMouseButton && @event.IsPressed() && @event.IsActionPressed("clickLeft")) //input lze předělat na signály
 		{
 			Vector2 mousePos = GetGlobalMousePosition();
-			if  (isToggledPleb)
+			if  (_spawner.isToggledPleb)
 				_spawner.SpawnPleb(mousePos);
 		}
 		else if (@event is InputEventMouse && @event.IsAction("MouseWheelUp"))
@@ -40,12 +39,5 @@ public partial class World1 : Node2D
 				_player.Speed *= 1.25f;
 			}
 		}
-	}
-
-	private void BtnPlebPressed()  // může být ve spawneru
-	{
-		isToggledPleb = !isToggledPleb;
-		/*if (!isToggledPleb)
-			return; */
 	}
 }
