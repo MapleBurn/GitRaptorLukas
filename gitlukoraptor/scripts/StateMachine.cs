@@ -12,10 +12,10 @@ public partial class StateMachine : Node
     {
         foreach (var child in GetChildren())
         {
-            if (child is State)
+            if (child is State state)
             {
-                states[child.Name] = child as State;
-                //child.Connect(State.SignalName.StateChanged, Callable.From(StateChanged));
+                states[state.Name] = state;
+                //state.Connect(State.SignalName.StateChanged, Callable.From(StateChanged));
             }
         }
 

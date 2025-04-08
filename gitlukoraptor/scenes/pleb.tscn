@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://juo11nra0k2x" path="res://assets/pleb_idle.png" id="2_d22m4"]
 [ext_resource type="Script" uid="uid://cvyusjv6pw35h" path="res://scripts/StateMachine.cs" id="3_tp18g"]
 [ext_resource type="Script" uid="uid://dr0g1owlgm0nw" path="res://scripts/states/wanderState.cs" id="4_egv0f"]
-[ext_resource type="Script" uid="uid://cxo3g2kut1d2v" path="res://scripts/states/thinkingState.cs" id="4_yeii3"]
+[ext_resource type="Script" uid="uid://cxo3g2kut1d2v" path="res://scripts/states/idleState.cs" id="4_yeii3"]
 [ext_resource type="Script" uid="uid://ib5bbgvxpdie" path="res://scripts/states/gatherState.cs" id="6_c2tjx"]
 [ext_resource type="Script" uid="uid://c5etolji13chc" path="res://scripts/states/attackState.cs" id="7_whbhq"]
 [ext_resource type="Script" uid="uid://bcno2mx7glxnd" path="res://scripts/states/retreatState.cs" id="8_iaafh"]
@@ -37,9 +37,9 @@ horizontal_alignment = 1
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("inicialState")]
 script = ExtResource("3_tp18g")
-inicialState = NodePath("thinkingState")
+inicialState = NodePath("idleState")
 
-[node name="thinkingState" type="Node" parent="StateMachine"]
+[node name="idleState" type="Node" parent="StateMachine"]
 script = ExtResource("4_yeii3")
 
 [node name="wanderState" type="Node" parent="StateMachine"]

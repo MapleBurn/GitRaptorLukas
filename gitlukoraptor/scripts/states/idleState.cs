@@ -1,16 +1,20 @@
 using Godot;
 using System;
 
-public partial class thinkingState : State
+public partial class idleState : State
 {
     [Export] private Pleb _pleb;
+
     public void Enter()
-    {}
+    {
+    }
 
     public void Update(double delta)
     {
-        //EmitSignal(SignalName.StateChanged); nedokončeno
-        
+        if (true) //dočasná podmínka
+        {
+            EmitSignal(SignalName.StateChanged, this, "idleState");
+        }
     }
 
     public void PhysicsUpdate(double delta)
