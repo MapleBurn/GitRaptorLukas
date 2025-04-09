@@ -5,7 +5,7 @@ using Godot.Collections;
 public partial class StateMachine : Node
 {
     [Export] private State inicialState;
-    private State currentState;
+    public State currentState;
     private Dictionary<string, State> states = new Dictionary<string, State>();
 
     public override void _Ready()

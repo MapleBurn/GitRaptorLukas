@@ -5,7 +5,8 @@ public partial class Pleb : CharacterBody2D
 {
 	private Random rdm = new Random();
 	public Timer gameTimer;
-	private Label lblDebug;
+	public Sprite2D sprite;
+	DetailPopup detailPopup;
 	
 	//pleb stats
 	public int health = 100;
@@ -13,11 +14,17 @@ public partial class Pleb : CharacterBody2D
 	public float speed = 50f;
 	public Vector2 direction = Vector2.Zero;
 	
+	//other data
+	public string name = "Pleb";
+	public string teamId = "none";
+	public bool favorite = false;
+	public bool showDetails = false;
 	
 	public override void _Ready()
 	{
 		gameTimer = GetNode<Timer>("/root/world1/GameTick");
-		lblDebug = GetNode<Label>("Label");
+		sprite = GetNode<Sprite2D>("Sprite2D");
+		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
 		gameTimer.Timeout += () => gameTimer_Tick();
 	}
 
@@ -36,8 +43,11 @@ public partial class Pleb : CharacterBody2D
 			health--;
 		else
 			hunger--;
-		
-		lblDebug.Text = "Hunger: " + hunger + "\nHealth: " + health;
+
+		if (showDetails)
+		{
+			detailPopup.Update();
+		}
 	}
 
 	public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
@@ -45,7 +55,8 @@ public partial class Pleb : CharacterBody2D
 		if (@event is InputEventMouseButton && @event.IsPressed() && @event.IsActionPressed("clickRight"))
 		{
 			//GD.Print($"Clicked on Pleb: {Name} (Instance ID: {GetInstanceId()})");
-			lblDebug.Visible = !lblDebug.Visible;
+			showDetails = true;
+			detailPopup.Display(this);
 		}
 	}
 
