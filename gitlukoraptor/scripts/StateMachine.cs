@@ -15,7 +15,7 @@ public partial class StateMachine : Node
             if (child is State state)
             {
                 states[state.Name] = state;
-                //state.Connect(State.SignalName.StateChanged, Callable.From(StateChanged));
+                state.Connect(State.SignalName.StateChanged, Callable.From<State, string>(StateChanged));
             }
         }
 

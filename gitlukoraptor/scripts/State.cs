@@ -4,20 +4,22 @@ using System;
 public partial class State : Node
 {
     [Signal] public delegate void StateChangedEventHandler(State requestingState, string newStateName);
-    
-    public void Enter()
-    {}
 
-    public void Exit()
+    public virtual void Enter()
     {
         
     }
 
-    public void Update(double delta)
+    public virtual void Exit()
     {
         
     }
 
-    public void PhysicsUpdate(double delta)
+    public virtual void Update(double delta)
+    {
+        
+    }
+
+    public virtual void PhysicsUpdate(double delta)
     {}
 }
