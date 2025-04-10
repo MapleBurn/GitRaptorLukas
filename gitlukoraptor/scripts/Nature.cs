@@ -23,7 +23,7 @@ public class Nature
 
     public static bool AllowBushSpawn(Vector2I position)
     {
-        return _bushHeatMap[position.Y][position.X] < 5;
+        return _bushHeatMap[position.Y][position.X] <= 20;
     }
 
     public static void SpawnBush(Vector2I position)

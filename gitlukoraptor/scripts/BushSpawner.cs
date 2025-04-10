@@ -18,7 +18,7 @@ public partial class BushSpawner : Node2D
 			Vector2I cellData = GroundTiles.GetCellAtlasCoords(cellCoords);
 			if (cellData == new Vector2I(2, 0))
 			{
-				if (rnd.Next(0, 100) <= 10 && IsSurroundingField(cellCoords))
+				if (rnd.Next(0, 1000) <= 20 && IsSurroundingField(cellCoords))
 				{
 					if (Nature.AllowBushSpawn(cellCoords))
 					{

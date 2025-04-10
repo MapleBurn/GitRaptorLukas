@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://bcno2mx7glxnd" path="res://scripts/states/retreatState.cs" id="8_iaafh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnkod"]
-size = Vector2(12, 15)
+size = Vector2(21, 26)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n1bth"]
 radius = 350.0
@@ -24,7 +24,6 @@ script = ExtResource("1_us0bb")
 texture = ExtResource("2_d22m4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_cnkod")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("inicialState")]

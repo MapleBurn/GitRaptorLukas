@@ -22,6 +22,7 @@ public partial class DetailPopup : Panel
         Visible = true;
         _pleb = pleb;
         _stateMachine = _pleb.GetNode<StateMachine>("StateMachine");
+        Update();
     }
     public void Update()
     {

@@ -3,8 +3,7 @@ using System;
 
 public partial class Pleb : CharacterBody2D
 {
-	private Random rdm = new Random();
-	public Timer gameTimer;
+	private Timer gameTimer;
 	public Sprite2D sprite;
 	DetailPopup detailPopup;
 	
@@ -25,9 +24,10 @@ public partial class Pleb : CharacterBody2D
 		gameTimer = GetNode<Timer>("/root/world1/GameTick");
 		sprite = GetNode<Sprite2D>("Sprite2D");
 		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
+		
 		gameTimer.Timeout += () => gameTimer_Tick();
 	}
-
+	
 	public override void _PhysicsProcess(double delta)
 	{
 	}
@@ -54,7 +54,6 @@ public partial class Pleb : CharacterBody2D
 	{
 		if (@event is InputEventMouseButton && @event.IsPressed() && @event.IsActionPressed("clickRight"))
 		{
-			//GD.Print($"Clicked on Pleb: {Name} (Instance ID: {GetInstanceId()})");
 			showDetails = true;
 			detailPopup.Display(this);
 		}

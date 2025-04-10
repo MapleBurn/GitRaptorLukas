@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ccwrkj3si2lij"]
 
 [ext_resource type="Texture2D" uid="uid://juo11nra0k2x" path="res://assets/pleb_idle.png" id="1_ahhtf"]
-[ext_resource type="Script" uid="uid://dew3qm2b13ko2" path="res://scenes/DetailPopup.cs" id="1_oo0fn"]
+[ext_resource type="Script" uid="uid://b6ca6edx8fipu" path="res://scripts/DetailPopup.cs" id="1_oo0fn"]
 
 [node name="Hud" type="CanvasLayer"]
 
@@ -27,6 +27,7 @@ grow_vertical = 0
 text = "Pleb spawn"
 
 [node name="DetailPopup" type="Panel" parent="." node_paths=PackedStringArray("_textureRect", "_name", "_team", "_favoriteToggle", "_health", "_hunger", "_state")]
+visible = false
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -44,6 +45,7 @@ _hunger = NodePath("hungerLbl")
 _state = NodePath("stateLbl")
 
 [node name="TextureRect" type="TextureRect" parent="DetailPopup"]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 72.0
