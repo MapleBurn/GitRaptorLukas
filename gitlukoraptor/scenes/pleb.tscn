@@ -27,16 +27,6 @@ texture = ExtResource("2_d22m4")
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_cnkod")
 
-[node name="Label" type="Label" parent="."]
-visible = false
-offset_left = -31.0
-offset_top = -58.0
-offset_right = 31.0
-offset_bottom = -9.0
-text = "Hunger:
-Health:"
-horizontal_alignment = 1
-
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("inicialState")]
 script = ExtResource("3_tp18g")
 inicialState = NodePath("idleState")

@@ -12,4 +12,6 @@ public partial class Ui : CanvasLayer
 	{
 		EmitSignal(SignalName.BtnPlebPressed);
 	}
+	
+	
 }
