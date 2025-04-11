@@ -30,16 +30,6 @@ public partial class Spawner : Node2D
 	{
 		isToggledPleb = !isToggledPleb;
 	}
-	
-	public override void _Input(InputEvent @event) //Musí se upravit aby se nespawnovalo skrze buttony atd.
-	{
-		if (@event is InputEventMouseButton && @event.IsPressed() && @event.IsActionPressed("clickLeft"))
-		{
-			Vector2 mousePos = GetGlobalMousePosition();
-			if  (isToggledPleb)
-				SpawnPleb(mousePos);
-		}
-	}
 
 	private void OnTimerTimeout() { }
 }
