@@ -3,8 +3,41 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	[Export] public float Speed = 300.0f;
+	[Export] public float defaultSpeed = 300.0f;
+	public float Speed;
 
+	private bool _isDragging;
+	private Vector2 _previousMousePosition;
+
+	public override void _Ready()
+	{
+		Speed = defaultSpeed;
+	}
+
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouseEvent)
+		{
+			if (mouseEvent.IsAction("clickMiddle"))
+			{
+				if (mouseEvent.Pressed)
+				{
+					_isDragging = true;
+					_previousMousePosition = mouseEvent.Position;
+				}
+				else
+				{
+					_isDragging = false;
+				}
+			}
+		}
+		if (@event is InputEventMouseMotion motionEvent && _isDragging)
+		{
+			Vector2 delta = _previousMousePosition - motionEvent.Position;
+			Position += delta * (Speed / defaultSpeed);
+			_previousMousePosition = motionEvent.Position;
+		}
+	}
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;

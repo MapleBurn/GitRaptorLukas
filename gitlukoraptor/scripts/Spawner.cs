@@ -4,7 +4,7 @@ using System;
 public partial class Spawner : Node2D
 { 
 	private PackedScene _pleb;
-	public bool isToggledPleb = false;
+	public bool isToggledPleb;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -29,6 +29,16 @@ public partial class Spawner : Node2D
 	private void BtnPlebPressed()
 	{
 		isToggledPleb = !isToggledPleb;
+	}
+	
+	public override void _Input(InputEvent @event) //Musí se upravit aby se nespawnovalo skrze buttony atd.
+	{
+		if (@event is InputEventMouseButton && @event.IsPressed() && @event.IsActionPressed("clickLeft"))
+		{
+			Vector2 mousePos = GetGlobalMousePosition();
+			if  (isToggledPleb)
+				SpawnPleb(mousePos);
+		}
 	}
 
 	private void OnTimerTimeout() { }
