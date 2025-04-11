@@ -1,23 +1,24 @@
 using Godot;
 using System;
 
-public partial class Pleb : CharacterBody2D
+public partial class Pleb : CharacterBody2D, Entity
 {
 	private Timer gameTimer;
-	public Sprite2D sprite;
-	DetailPopup detailPopup;
-	
-	//pleb stats
-	public int health = 100;
-	public int hunger = 100;
-	public float speed = 50f;
 	public Vector2 direction = Vector2.Zero;
+	public float speed = 50f;
 	
-	//other data
+	//pleb data
+	public Sprite2D sprite;
+	public int health = 100;
 	public string name = "Pleb";
-	public string teamId = "none";
 	public bool favorite = false;
-	public bool showDetails = false;
+	
+	public int hunger = 100;
+	public string teamId = "none";
+	
+	
+	public bool showDetails;
+	DetailPopup detailPopup;
 	
 	public override void _Ready()
 	{
@@ -59,7 +60,7 @@ public partial class Pleb : CharacterBody2D
 		}
 	}
 
-	private void Die()
+	public void Die()
 	{
 		QueueFree();
 	}

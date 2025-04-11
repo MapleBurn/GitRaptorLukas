@@ -1,0 +1,114 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5ou6dhljptgf"]
+
+[ext_resource type="Script" uid="uid://b6ca6edx8fipu" path="res://scripts/DetailPopup.cs" id="1_mbhj7"]
+
+[node name="DetailPopup" type="Panel"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -252.0
+offset_right = 264.0
+offset_bottom = -108.0
+grow_vertical = 0
+script = ExtResource("1_mbhj7")
+
+[node name="CommonDetails" type="Node2D" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CommonDetails"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 72.0
+stretch_mode = 5
+
+[node name="nameLbl" type="Label" parent="CommonDetails"]
+offset_left = 80.0
+offset_top = 8.0
+offset_right = 135.0
+offset_bottom = 31.0
+text = "Name: "
+
+[node name="favorite" type="Node2D" parent="CommonDetails"]
+
+[node name="favoriteToggle" type="CheckButton" parent="CommonDetails/favorite"]
+offset_left = 148.0
+offset_top = 54.5
+offset_right = 192.0
+offset_bottom = 78.5
+focus_mode = 0
+
+[node name="favoriteLbl" type="Label" parent="CommonDetails/favorite"]
+offset_left = 80.0
+offset_top = 54.0
+offset_right = 144.0
+offset_bottom = 77.0
+text = "Favorite"
+
+[node name="healthLbl" type="Label" parent="CommonDetails"]
+offset_left = 8.0
+offset_top = 88.0
+offset_right = 64.0
+offset_bottom = 111.0
+text = "Health:"
+
+[node name="PlebDetails" type="Node2D" parent="."]
+visible = false
+position = Vector2(8, 88)
+
+[node name="teamLbl" type="Label" parent="PlebDetails"]
+offset_left = 72.0
+offset_top = -57.0
+offset_right = 120.0
+offset_bottom = -34.0
+text = "Team:"
+
+[node name="hungerLbl" type="Label" parent="PlebDetails"]
+offset_left = 101.0
+offset_right = 163.0
+offset_bottom = 23.0
+text = "Hunger:"
+
+[node name="stateLbl" type="Label" parent="PlebDetails"]
+offset_left = 202.0
+offset_right = 247.0
+offset_bottom = 23.0
+text = "State:"
+
+[node name="BushDetails" type="Node2D" parent="."]
+visible = false
+
+[node name="resourceLbl" type="Label" parent="BushDetails"]
+offset_left = 78.0
+offset_top = 88.0
+offset_right = 154.0
+offset_bottom = 111.0
+text = "Resource:"
+
+[node name="productionLbl" type="Label" parent="BushDetails"]
+offset_left = 166.0
+offset_top = 88.0
+offset_right = 256.0
+offset_bottom = 111.0
+text = "Production:"
+
+[node name="closeBtn" type="Button" parent="."]
+offset_left = 224.0
+offset_top = 8.0
+offset_right = 256.0
+offset_bottom = 40.0
+focus_mode = 0
+text = "X
+"
+
+[node name="killBtn" type="Button" parent="."]
+offset_left = 224.0
+offset_top = 48.0
+offset_right = 256.0
+offset_bottom = 80.0
+focus_mode = 0
+text = "💀
+"
+
+[connection signal="toggled" from="CommonDetails/favorite/favoriteToggle" to="." method="ToggleFavorite"]
+[connection signal="pressed" from="closeBtn" to="." method="CloseDetail"]
+[connection signal="pressed" from="killBtn" to="." method="KillEntity"]

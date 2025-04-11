@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://ccwrkj3si2lij"]
+[gd_scene load_steps=2 format=3 uid="uid://ccwrkj3si2lij"]
 
-[ext_resource type="Texture2D" uid="uid://juo11nra0k2x" path="res://assets/pleb_idle.png" id="1_ahhtf"]
-[ext_resource type="Script" uid="uid://b6ca6edx8fipu" path="res://scripts/DetailPopup.cs" id="1_oo0fn"]
+[ext_resource type="PackedScene" uid="uid://c5ou6dhljptgf" path="res://scenes/detail_popup.tscn" id="1_ahhtf"]
 
 [node name="Hud" type="CanvasLayer"]
 
@@ -24,98 +23,10 @@ offset_top = -93.0
 offset_right = 204.0
 offset_bottom = -7.0
 grow_vertical = 0
+focus_mode = 0
 text = "Pleb spawn"
 
-[node name="DetailPopup" type="Panel" parent="." node_paths=PackedStringArray("_textureRect", "_name", "_team", "_favoriteToggle", "_health", "_hunger", "_state")]
+[node name="DetailPopup" parent="." instance=ExtResource("1_ahhtf")]
 visible = false
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -252.0
-offset_right = 264.0
-offset_bottom = -108.0
-grow_vertical = 0
-script = ExtResource("1_oo0fn")
-_textureRect = NodePath("TextureRect")
-_name = NodePath("nameLbl")
-_team = NodePath("teamLbl")
-_favoriteToggle = NodePath("favorite/favoriteToggle")
-_health = NodePath("healthLbl")
-_hunger = NodePath("hungerLbl")
-_state = NodePath("stateLbl")
-
-[node name="TextureRect" type="TextureRect" parent="DetailPopup"]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 72.0
-offset_bottom = 72.0
-texture = ExtResource("1_ahhtf")
-
-[node name="nameLbl" type="Label" parent="DetailPopup"]
-layout_mode = 0
-offset_left = 80.0
-offset_top = 8.0
-offset_right = 135.0
-offset_bottom = 31.0
-text = "Name: "
-
-[node name="teamLbl" type="Label" parent="DetailPopup"]
-layout_mode = 0
-offset_left = 80.0
-offset_top = 31.0
-offset_right = 128.0
-offset_bottom = 54.0
-text = "Team:"
-
-[node name="favorite" type="Node2D" parent="DetailPopup"]
-
-[node name="favoriteToggle" type="CheckButton" parent="DetailPopup/favorite"]
-offset_left = 148.0
-offset_top = 54.5
-offset_right = 192.0
-offset_bottom = 78.5
-
-[node name="favoriteLbl" type="Label" parent="DetailPopup/favorite"]
-offset_left = 80.0
-offset_top = 54.0
-offset_right = 144.0
-offset_bottom = 77.0
-text = "Favorite"
-
-[node name="healthLbl" type="Label" parent="DetailPopup"]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 88.0
-offset_right = 64.0
-offset_bottom = 111.0
-text = "Health:"
-
-[node name="hungerLbl" type="Label" parent="DetailPopup"]
-layout_mode = 0
-offset_left = 109.0
-offset_top = 88.0
-offset_right = 171.0
-offset_bottom = 111.0
-text = "Hunger:"
-
-[node name="stateLbl" type="Label" parent="DetailPopup"]
-layout_mode = 0
-offset_left = 210.0
-offset_top = 88.0
-offset_right = 255.0
-offset_bottom = 111.0
-text = "State:"
-
-[node name="closeBtn" type="Button" parent="DetailPopup"]
-layout_mode = 0
-offset_left = 224.0
-offset_top = 8.0
-offset_right = 256.0
-offset_bottom = 40.0
-text = "X
-"
 
 [connection signal="pressed" from="Menu/btnPleb" to="." method="btnPleb_Click"]
-[connection signal="toggled" from="DetailPopup/favorite/favoriteToggle" to="DetailPopup" method="ToggleFavorite"]
-[connection signal="pressed" from="DetailPopup/closeBtn" to="DetailPopup" method="CloseDetail"]

@@ -9,6 +9,7 @@ size = Vector2(20, 10)
 [node name="bush" type="StaticBody2D" groups=["nature"]]
 collision_layer = 16
 collision_mask = 0
+input_pickable = true
 script = ExtResource("1_ehqem")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
