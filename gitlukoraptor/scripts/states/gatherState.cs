@@ -13,7 +13,7 @@ public partial class gatherState : State
     }
 
     public override void Update(double delta)
-    {
+    {/*
         //pro příště: vytvořit check pro nejbližší bush, když bush nenajde tak vybere dir kterou půjde x sekund
         //vyrobit žraní z bush, bush jídlo
         var bodies = detectionArea.GetOverlappingBodies();
@@ -32,6 +32,7 @@ public partial class gatherState : State
         {
             EmitSignal(SignalName.StateChanged, this, "idleState");
         }
+        */
     }
 
     public override void PhysicsUpdate(double delta)

@@ -11,6 +11,7 @@ public partial class Bush : StaticBody2D, Entity
     
     public int resourceCount = 100;
     public int resourceProduction = 5;
+    public string type = "Food";
     
     public bool showDetails;
     

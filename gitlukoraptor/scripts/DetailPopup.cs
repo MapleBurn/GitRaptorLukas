@@ -18,6 +18,7 @@ public partial class DetailPopup : Panel
     //Bush Details
     private Label _resource;
     private Label _production;
+    private Label _type;
 
     //Detail variables
     private Node2D _plebDetails;
@@ -37,6 +38,7 @@ public partial class DetailPopup : Panel
         _bushDetails = GetNode<Node2D>("BushDetails");
         _resource = GetNode<Label>("BushDetails/resourceLbl"); 
         _production  = GetNode<Label>("BushDetails/productionLbl"); 
+        _type  = GetNode<Label>("BushDetails/typeLbl");
     }
     
     public void Display(Entity entity)
@@ -74,8 +76,8 @@ public partial class DetailPopup : Panel
         if (_entity is Pleb){
             Pleb pleb = _entity as Pleb;
             _textureRect.Texture = pleb.sprite.Texture;
-            _name.Text = "Name:" + pleb.name;
-            _team.Text = "Team:" + pleb.teamId;
+            _name.Text = "Pleb - " + pleb.name;
+            _team.Text = "Team: " + pleb.team;
             _favoriteToggle.ButtonPressed = pleb.favorite;
             _health.Text = "Health:\n" + pleb.health;
             _hunger.Text = "Hunger:\n" + pleb.hunger;
@@ -84,7 +86,8 @@ public partial class DetailPopup : Panel
         if (_entity is Bush){
             Bush bush = _entity as Bush;
             _textureRect.Texture = bush.sprite.Texture;
-            _name.Text = "Name:" + bush.name;
+            _name.Text = bush.name;
+            _type.Text = "Type: " + bush.type;
             _favoriteToggle.ButtonPressed = bush.favorite;
             _health.Text = "Health:\n" + bush.health;
             _resource.Text = "Resource:\n" + bush.resourceCount;
@@ -107,15 +110,7 @@ public partial class DetailPopup : Panel
 
     private void KillEntity()
     {
-        if(_entity is Pleb){
-            Pleb pleb = _entity as Pleb;
-            pleb.showDetails = false;
-        }
-        if(_entity is Bush){
-            Bush bush = _entity as Bush;
-            bush.showDetails = false;
-        }
-        _health.Text = "Health:\n" + 0;
+        CloseDetail();
         _entity.Die();
     }
 

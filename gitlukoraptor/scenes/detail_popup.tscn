@@ -26,7 +26,7 @@ offset_left = 80.0
 offset_top = 8.0
 offset_right = 135.0
 offset_bottom = 31.0
-text = "Name: "
+text = "Name"
 
 [node name="favorite" type="Node2D" parent="CommonDetails"]
 
@@ -91,7 +91,15 @@ offset_right = 256.0
 offset_bottom = 111.0
 text = "Production:"
 
+[node name="typeLbl" type="Label" parent="BushDetails"]
+offset_left = 80.0
+offset_top = 31.0
+offset_right = 128.0
+offset_bottom = 54.0
+text = "Team:"
+
 [node name="closeBtn" type="Button" parent="."]
+layout_mode = 0
 offset_left = 224.0
 offset_top = 8.0
 offset_right = 256.0
@@ -101,6 +109,7 @@ text = "X
 "
 
 [node name="killBtn" type="Button" parent="."]
+layout_mode = 0
 offset_left = 224.0
 offset_top = 48.0
 offset_right = 256.0
