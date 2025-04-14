@@ -3,19 +3,20 @@ using System;
 
 public partial class Pleb : CharacterBody2D, Entity
 {
-	public static string[] namePresets = ["Snorky", "Blimbo", "Wibbles", "Zonker", "Boinkle", "Squibble", "Doodle", "Fizzle", "Wobble", "Jiggly", "Fizzbin", "Noodle", "Plonker", "Goober", "Ignacio", "Dexter", "Lazaro", "Caius", "Amias", "Orion", "Zephyr", "Lucian", "Thaddeus", "Cassian", "Erasmus", "Balthazar", "Isidore", "Phineas", "Leandro", "Octavian", "Quillon", "Dario", "Alaric", "Simeon", "Tiberius", "Steve", "Mike", "David", "John", "Mark", "Michael", "Scott", "Jeff", "Paul", "Chris", "Robert", "Dave", "Tom", "Jim", "Tim", "Kevin", "Joe", "Brian", "Domini", "Dara", "Destry", "Elowen", "Gaia", "Glora", "Garnet", "Harbor", "Harlow", "Lucretia", "Lumen", "Lura", "Lux", "Tansy", "Sunny", "Chase", "Wade", "Clay", "Reed", "Sky", "Ash", "Dawn", "River", "Flint", "Coral", "Pearl", "Haven", "Frost", "Echo", "Breeze", "Blaze", "Stone", "Vale", "Meadow"];
+	public static string[] namePresets = ["Snorky", "Blimbo", "Wibbles", "Zonker", "Boinkle", "Squibble", "Doodle", "Fizzle", "Wobble", "Jiggly", "Fizzbin", "Noodle", "Plonker", "Goober", "Ignacio", "Dexter", "Lazaro", "Caius", "Amias", "Orion", "Zephyr", "Lucian", "Thaddeus", "Cassian", "Erasmus", "Balthazar", "Isidore", "Phineas", "Leandro", "Octavian", "Quillon", "Dario", "Alaric", "Simeon", "Tiberius", "Steve", "Mike", "David", "John", "Mark", "Michael", "Scott", "Jeff", "Paul", "Chris", "Robert", "Dave", "Tom", "Jim", "Tim", "Kevin", "Joe", "Brian", "Domini", "Dara", "Destry", "Elowen", "Gaia", "Gloria", "Garnet", "Harbor", "Harlow", "Lucretia", "Lumen", "Lura", "Lux", "Tansy", "Conquest", "Victor", "Sunny", "Chase", "Wade", "Clay", "Reed", "Sky", "Ash", "Dawn", "River", "Flint", "Coral", "Pearl", "Haven", "Frost", "Echo", "Breeze", "Blaze", "Stone", "Vale", "Meadow"];
 	
 	private Timer gameTimer;
+	private Timer dieTimer;
 	public Vector2 direction = Vector2.Zero;
 	public float speed = 50f;
 	
 	//pleb data
-	public Sprite2D sprite;
+	public AnimatedSprite2D sprite;
+	public int maxHealth = 100;
 	public int health = 100;
+	public int hunger = 100;
 	public string name = "Ignac";
 	public bool favorite = false;
-	
-	public int hunger = 100;
 	public string team = "none";
 	
 	
@@ -25,7 +26,8 @@ public partial class Pleb : CharacterBody2D, Entity
 	public override void _Ready()
 	{
 		gameTimer = GetNode<Timer>("/root/world1/GameTick");
-		sprite = GetNode<Sprite2D>("Sprite2D");
+		dieTimer = GetNode<Timer>("DieTimer");
+		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
 		
 		gameTimer.Timeout += () => gameTimer_Tick();
@@ -48,6 +50,13 @@ public partial class Pleb : CharacterBody2D, Entity
 			health--;
 		else
 			hunger--;
+
+		//healing when not hungry
+		if (hunger > 80 && health < maxHealth)
+		{ 
+			health++;
+			hunger--;
+		}
 
 		if (showDetails)
 		{
@@ -110,7 +119,14 @@ public partial class Pleb : CharacterBody2D, Entity
 		name = char.ToUpper(name[0]) + name.Substring(1);
 		return name;
 	}
+	
 	public void Die()
+	{
+		dieTimer.Start();
+		sprite.Play("death");
+	}
+
+	private void DieTimerTimeout()
 	{
 		QueueFree();
 	}

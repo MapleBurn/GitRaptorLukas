@@ -4,16 +4,30 @@ using System;
 public partial class idleState : State
 {
     [Export] private Pleb _pleb;
+    [Export] private AnimatedSprite2D _animation;
     private Random rdm = new Random();
     private double wanderTime;
 
     public override void Enter()
     {
         RandomizeWander();
+        _animation.Play("idle");
     }
 
     public override void Update(double delta)
     {
+        if (_pleb.Velocity == Vector2.Zero)
+            _animation.Play("idle");
+        else if (_pleb.direction > Vector2.Zero)
+        {
+            _animation.FlipH = false;
+            _animation.Play("walk");
+        }
+        else if (_pleb.direction < Vector2.Zero)
+        {
+            _animation.FlipH = true;
+            _animation.Play("walk");
+        }
         if (_pleb != null)
             _pleb.Velocity = _pleb.direction * _pleb.speed;
         if (wanderTime > 0)
@@ -22,13 +36,19 @@ public partial class idleState : State
             RandomizeWander();
         if (_pleb.hunger <= 50)
         {
-            EmitSignal(SignalName.StateChanged, this, "gatherState");
+            Exit();
+            EmitSignal(State.SignalName.StateChanged, this, "gatherState");
         }
     }
 
     public override void PhysicsUpdate(double delta)
     {
         _pleb.MoveAndSlide();
+    }
+
+    public override void Exit()
+    {
+        _animation.Stop();
     }
 
     private void RandomizeWander()

@@ -4,11 +4,11 @@ using System;
 public partial class gatherState : State
 {
     [Export] private Pleb _pleb;
-    private Area2D detectionArea;
+    [Export] private Area2D detectionArea;
     
     public override void Enter()
     {
-        detectionArea = GetNode<Area2D>("DetectionArea");
+        //detectionArea = GetNode<Area2D>("DetectionArea");
         //enter funkce
     }
 
@@ -23,7 +23,10 @@ public partial class gatherState : State
             {
                 if (body.GetGroups().Contains("nature"))
                 {
-                    //go to bush
+                    if (body.GetName() == "bush")
+                    {
+                        
+                    }
                 }
             }
         }
@@ -31,8 +34,7 @@ public partial class gatherState : State
         if (_pleb.hunger >= 80)
         {
             EmitSignal(SignalName.StateChanged, this, "idleState");
-        }
-        */
+        }*/
     }
 
     public override void PhysicsUpdate(double delta)

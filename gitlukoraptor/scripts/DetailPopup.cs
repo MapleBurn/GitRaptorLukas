@@ -75,7 +75,13 @@ public partial class DetailPopup : Panel
     {
         if (_entity is Pleb){
             Pleb pleb = _entity as Pleb;
-            _textureRect.Texture = pleb.sprite.Texture;
+            
+            //vezme current frame a udělá z něj texture - needs fixing
+            SpriteFrames spriteFrames = pleb.sprite.SpriteFrames;
+            string animationName = pleb.sprite.Animation;
+            int frameIndex = pleb.sprite.Frame;
+            _textureRect.Texture = spriteFrames.GetFrameTexture(animationName, frameIndex);;
+            
             _name.Text = "Pleb - " + pleb.name;
             _team.Text = "Team: " + pleb.team;
             _favoriteToggle.ButtonPressed = pleb.favorite;
@@ -111,7 +117,8 @@ public partial class DetailPopup : Panel
     private void KillEntity()
     {
         CloseDetail();
-        _entity.Die();
+        if (_entity != null)
+            _entity.Die();
     }
 
     private void ToggleFavorite(bool toggle)
