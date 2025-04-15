@@ -16,20 +16,13 @@ public partial class idleState : State
 
     public override void Update(double delta)
     {
-        if (_pleb.Velocity == Vector2.Zero)
-            _animation.Play("idle");
-        else if (_pleb.direction > Vector2.Zero)
-        {
-            _animation.FlipH = false;
-            _animation.Play("walk");
-        }
-        else if (_pleb.direction < Vector2.Zero)
-        {
-            _animation.FlipH = true;
-            _animation.Play("walk");
-        }
+        if (_pleb.isDead)
+            return;
         if (_pleb != null)
+        {
             _pleb.Velocity = _pleb.direction * _pleb.speed;
+            _pleb.Animate();
+        }
         if (wanderTime > 0)
             wanderTime -= delta;
         else
@@ -43,6 +36,8 @@ public partial class idleState : State
 
     public override void PhysicsUpdate(double delta)
     {
+        if (_pleb.isDead)
+            return;
         _pleb.MoveAndSlide();
     }
 

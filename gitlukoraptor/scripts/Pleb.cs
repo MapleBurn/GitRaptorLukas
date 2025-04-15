@@ -8,16 +8,17 @@ public partial class Pleb : CharacterBody2D, Entity
 	private Timer gameTimer;
 	private Timer dieTimer;
 	public Vector2 direction = Vector2.Zero;
+	public AnimatedSprite2D sprite;
 	public float speed = 50f;
 	
 	//pleb data
-	public AnimatedSprite2D sprite;
 	public int maxHealth = 100;
 	public int health = 100;
 	public int hunger = 100;
 	public string name = "Ignac";
 	public bool favorite = false;
 	public string team = "none";
+	public bool isDead = false;
 	
 	
 	public bool showDetails;
@@ -41,6 +42,8 @@ public partial class Pleb : CharacterBody2D, Entity
 	
 	private void gameTimer_Tick()
 	{
+		if (isDead)
+			return;
 		if (health <= 0)
 		{
 			Die();
@@ -119,16 +122,37 @@ public partial class Pleb : CharacterBody2D, Entity
 		name = char.ToUpper(name[0]) + name.Substring(1);
 		return name;
 	}
+
+	public void Animate()
+	{
+		if (Velocity == Vector2.Zero)
+			sprite.Play("idle");
+		else if (direction > Vector2.Zero)
+		{
+			sprite.FlipH = false;
+			sprite.Play("walk");
+		}
+		else if (direction < Vector2.Zero)
+		{
+			sprite.FlipH = true;
+			sprite.Play("walk");
+		}
+	}
 	
 	public void Die()
 	{
+		isDead = true;
 		dieTimer.Start();
 		sprite.Play("death");
+
+		dieTimer.Timeout += () =>
+		{
+			QueueFree();
+		};
 	}
 
-	private void DieTimerTimeout()
-	{
-		QueueFree();
-	}
-	
+	//private void DieTimerTimeout()
+	//{
+	//	QueueFree();
+	//}
 }

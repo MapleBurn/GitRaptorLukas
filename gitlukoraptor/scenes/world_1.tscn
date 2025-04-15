@@ -1,18 +1,18 @@
 [gd_scene load_steps=39 format=3 uid="uid://b2vpmxnpph62p"]
 
-[ext_resource type="Script" uid="uid://dlbxdgjhp18j4" path="res://addons/gaea/renderers/2D/tilemap_gaea_renderer.gd" id="1_mibss"]
+[ext_resource type="Script" uid="uid://bxnhnxu6xaii3" path="res://addons/gaea/renderers/2D/tilemap_gaea_renderer.gd" id="1_mibss"]
 [ext_resource type="Script" uid="uid://bknpty6ymv6ba" path="res://scripts/World1.cs" id="1_ymduc"]
 [ext_resource type="PackedScene" uid="uid://dy5ilpfl4qmuo" path="res://scenes/spawner.tscn" id="2_y1udj"]
 [ext_resource type="PackedScene" uid="uid://bjk3805qy6faw" path="res://scenes/player.tscn" id="3_pl3yb"]
 [ext_resource type="Texture2D" uid="uid://wpb838olcc5" path="res://assets/bush.png" id="4_juex5"]
 [ext_resource type="Texture2D" uid="uid://dfobdqcm2s803" path="res://assets/tilemap-pleb16.png" id="4_o7wde"]
-[ext_resource type="Script" uid="uid://clxjxq4yojp7h" path="res://addons/gaea/generators/2D/noise_generator/noise_generator.gd" id="5_s3gq3"]
-[ext_resource type="Script" uid="uid://bumgsynhykupe" path="res://addons/gaea/others/falloff_map.gd" id="6_c8u8q"]
-[ext_resource type="Script" uid="uid://dh11xht07jy2s" path="res://addons/gaea/modifiers/2D/modifier_2d.gd" id="7_w58se"]
-[ext_resource type="Script" uid="uid://caa4twa0v51vu" path="res://addons/gaea/generators/2D/noise_generator/noise_generator_settings.gd" id="8_4hti1"]
-[ext_resource type="Script" uid="uid://b1qjc5t55ftwo" path="res://addons/gaea/generators/2D/noise_generator/noise_generator_data.gd" id="9_6gmkp"]
+[ext_resource type="Script" uid="uid://o6xmknj3d366" path="res://addons/gaea/generators/2D/noise_generator/noise_generator.gd" id="5_s3gq3"]
+[ext_resource type="Script" uid="uid://btvpw87asedma" path="res://addons/gaea/others/falloff_map.gd" id="6_c8u8q"]
+[ext_resource type="Script" uid="uid://ckpb4omou11df" path="res://addons/gaea/modifiers/2D/modifier_2d.gd" id="7_w58se"]
+[ext_resource type="Script" uid="uid://bp0pm5nrc5mae" path="res://addons/gaea/generators/2D/noise_generator/noise_generator_settings.gd" id="8_4hti1"]
+[ext_resource type="Script" uid="uid://c7bw3otjbdic1" path="res://addons/gaea/generators/2D/noise_generator/noise_generator_data.gd" id="9_6gmkp"]
 [ext_resource type="Script" uid="uid://d07o1u3gsxdyp" path="res://scripts/GroundTiles.cs" id="10_0e5nu"]
-[ext_resource type="Script" uid="uid://bl6pflq7h5e2r" path="res://addons/gaea/tile_info/tilemap_tile_info.gd" id="10_cq7ai"]
+[ext_resource type="Script" uid="uid://copwy85s3g8xd" path="res://addons/gaea/tile_info/tilemap_tile_info.gd" id="10_cq7ai"]
 [ext_resource type="PackedScene" uid="uid://cv57wkyhn3j03" path="res://scenes/bush_spawner.tscn" id="14_ekkqh"]
 [ext_resource type="PackedScene" uid="uid://ccwrkj3si2lij" path="res://scenes/hud.tscn" id="14_l6637"]
 [ext_resource type="Script" uid="uid://lvwdeu8svsoj" path="res://scripts/CameraController.cs" id="14_qheke"]
@@ -72,7 +72,7 @@ resource_name = "forest"
 script = ExtResource("9_6gmkp")
 title = "forest"
 tile = SubResource("Resource_3i1m7")
-min = 0.2
+min = 0.1
 max = 0.6
 
 [sub_resource type="Resource" id="Resource_8n65y"]
@@ -91,7 +91,7 @@ script = ExtResource("9_6gmkp")
 title = "field"
 tile = SubResource("Resource_8n65y")
 min = -0.1
-max = 0.2
+max = 0.1
 
 [sub_resource type="Resource" id="Resource_vb3d4"]
 script = ExtResource("10_cq7ai")

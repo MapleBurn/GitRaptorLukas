@@ -10,6 +10,8 @@ public partial class attackState : State
 
     public override void Update(double delta)
     {
+        if (_pleb.isDead)
+            return;
         if (true) //dočasná podmínka
         {
             EmitSignal(SignalName.StateChanged, this, "idleState");
@@ -17,5 +19,8 @@ public partial class attackState : State
     }
 
     public override void PhysicsUpdate(double delta)
-    {}
+    {
+        if (_pleb.isDead)
+            return;
+    }
 }
