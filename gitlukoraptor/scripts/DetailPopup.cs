@@ -101,7 +101,7 @@ public partial class DetailPopup : Panel
             
         }
     }
-    private void CloseDetail()
+    public void CloseDetail()
     {
         if(_entity is Pleb){
             Pleb pleb = _entity as Pleb;
@@ -116,7 +116,6 @@ public partial class DetailPopup : Panel
 
     private void KillEntity()
     {
-        CloseDetail();
         if (_entity != null)
             _entity.Die();
     }

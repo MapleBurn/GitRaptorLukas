@@ -13,8 +13,8 @@ public partial class Pleb : CharacterBody2D, Entity
 	
 	//pleb data
 	public int maxHealth = 100;
-	public int health = 100;
-	public int hunger = 50;
+	public int health = 1;
+	public int hunger = 20;
 	public string name = "Ignac";
 	public bool favorite = false;
 	public string team = "none";
@@ -144,8 +144,10 @@ public partial class Pleb : CharacterBody2D, Entity
 		isDead = true;
 		dieTimer.Start();
 		sprite.Play("death");
+		if (showDetails)
+			detailPopup.CloseDetail();
 
-		dieTimer.Timeout += () =>
+		dieTimer.Timeout += () =>		//tick funkce ale postiženě napsané
 		{
 			QueueFree();
 		};
