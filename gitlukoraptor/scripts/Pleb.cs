@@ -14,7 +14,7 @@ public partial class Pleb : CharacterBody2D, Entity
 	//pleb data
 	public int maxHealth = 100;
 	public int health = 100;
-	public int hunger = 100;
+	public int hunger = 50;
 	public string name = "Ignac";
 	public bool favorite = false;
 	public string team = "none";

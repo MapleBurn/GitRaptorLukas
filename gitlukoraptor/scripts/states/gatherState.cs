@@ -9,23 +9,22 @@ public partial class gatherState : State
     
     private Random rdm =  new Random();
     private double wanderTime;
-    private bool isSearchingForBush = false;
-    private bool isGoingToBush = false;
+    private bool isSearchingForBush = true;
+    //private bool isGoingToBush = false;
     private Bush closestBush;
     private Vector2 shortest = new Vector2(10000, 10000);
     
     public override void Enter()
     {
+        RandomizeWander();
         //detectionArea = GetNode<Area2D>("DetectionArea");
         //enter funkce
     }
 
     public override void Update(double delta)
     {
-        if (_pleb.isDead && _pleb == null)
+        if (_pleb.isDead || _pleb == null)
             return;
-        if (!isGoingToBush)
-            SearchForFood();
         if (isSearchingForBush)
         {
             _pleb.Velocity = _pleb.direction * _pleb.speed;
@@ -33,18 +32,31 @@ public partial class gatherState : State
                 wanderTime -= delta;
             else
                 RandomizeWander();
+            SearchForBush();
         }
-
-        if ((closestBush.Position - _pleb.Position).Length() <= 5)
+        
+        if (!isSearchingForBush) 
         {
-            isSearchingForBush = false;
-            isGoingToBush = false;
-            
-            //bush se ubere resource, pleb přibere hunger
-            closestBush.resourceCount -= (100 - _pleb.hunger);
+            //Pleb found bush and takes food from it
+            if ((closestBush.Position - _pleb.Position).Length() <= 5)
+            {
+                int takeAmount = 100 - _pleb.hunger;
+                if (takeAmount <= closestBush.resourceCount)
+                {
+                    _pleb.hunger += takeAmount;
+                    closestBush.resourceCount -= takeAmount;
+                }
+                else
+                {
+                    _pleb.hunger += closestBush.resourceCount;
+                    closestBush.resourceCount = 0;
+                }
+            }
+            else
+            {
+                _pleb.Velocity = _pleb.direction * _pleb.speed;
+            }
         }
-            
-        //když najde bush aby k němu šel - v searchforfood určíme pouze direction ale nedáváme velocity
         
         _pleb.Animate();
         
@@ -60,8 +72,8 @@ public partial class gatherState : State
             return;
         _pleb.MoveAndSlide();
     }
-
-    private void SearchForFood()
+    
+    private void SearchForBush()
     {
         var bodies = detectionArea.GetOverlappingBodies();
         if (bodies != null && bodies.Count > 0)
@@ -70,12 +82,11 @@ public partial class gatherState : State
             {
                 if (body.GetGroups().Contains("nature"))
                 {
-                    if (body.Name.ToString().StartsWith("bush"))
+                    if (body.GetType() == StaticBody2D)    //fix fix fix - musí být typu Bush
                     {
                         Vector2 position = body.GetPosition();
                         Vector2 distance = position - _pleb.Position;
                         Bush bush = body as Bush; 
-                        //změnit aby to porovnávalo velikosti vektorů - pak blaBABABBA
                         if (distance.Length() < shortest.Length() &&  bush.resourceCount > 0)
                         {
                             shortest = distance;
@@ -85,11 +96,11 @@ public partial class gatherState : State
                 }
             }
             _pleb.direction = shortest.Normalized();
-            isGoingToBush = true;
+            isSearchingForBush = false;
         }
         else
         {
-            RandomizeWander();
+            isSearchingForBush = true;
         }
     }
     
