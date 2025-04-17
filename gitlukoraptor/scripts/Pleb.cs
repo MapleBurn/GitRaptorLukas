@@ -26,7 +26,7 @@ public partial class Pleb : CharacterBody2D, Entity
 	
 	public override void _Ready()
 	{
-		gameTimer = GetNode<Timer>("/root/world1/GameTick");
+		gameTimer = GetNode<Timer>("/root/world1/Timers/GameTick");
 		dieTimer = GetNode<Timer>("DieTimer");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");

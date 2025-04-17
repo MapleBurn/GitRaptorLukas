@@ -10,15 +10,11 @@ public partial class gatherState : State
     private Random rdm =  new Random();
     private double wanderTime = 0;
     private bool isSearchingForBush = true;
-    //private bool isGoingToBush = false;
     private Bush closestBush;
-    private Vector2 shortest = new Vector2(10000, 10000);
     
     public override void Enter()
     {
         RandomizeWander();
-        //detectionArea = GetNode<Area2D>("DetectionArea");
-        //enter funkce
     }
 
     public override void Update(double delta)
@@ -39,7 +35,7 @@ public partial class gatherState : State
         if (!isSearchingForBush) 
         {
             //Pleb found bush and takes food from it
-            if ((closestBush.Position - _pleb.Position).Length() <= 5)
+            if (closestBush != null && (closestBush.Position - _pleb.Position).Length() <= 10)
             {
                 int takeAmount = 100 - _pleb.hunger;
                 if (takeAmount <= closestBush.resourceCount)
@@ -51,16 +47,16 @@ public partial class gatherState : State
                 {
                     _pleb.hunger += closestBush.resourceCount;
                     closestBush.resourceCount = 0;
-                    if(_pleb.hunger < 80)
-                    {
-                        isSearchingForBush = true;
-                        //SearchForBush();
-                    }
                 }
             }
             else
             {
                 _pleb.Velocity = _pleb.direction * _pleb.speed;
+            }
+            if(_pleb.hunger < 80)
+            {
+                isSearchingForBush = true;
+                //SearchForBush();
             }
         }
         
@@ -85,6 +81,7 @@ public partial class gatherState : State
         if (bodies != null && bodies.Count > 0)
         {
             int bushCount = 0;
+            Vector2 shortest = new Vector2(10000, 10000);
             foreach (Node2D body in bodies)
             {
                 if (body.GetGroups().Contains("nature"))
@@ -114,7 +111,7 @@ public partial class gatherState : State
     
     private void RandomizeWander()
     {
-        isSearchingForBush = true;
+        //isSearchingForBush = true;
         _pleb.direction = new Vector2(rdm.Next(-100, 100) / 100f, rdm.Next(-100, 100) / 100f).Normalized();
         wanderTime = rdm.Next(100, 400) / 100f;
     }

@@ -233,7 +233,13 @@ _player = NodePath("..")
 [node name="Hud" parent="." instance=ExtResource("14_l6637")]
 script = ExtResource("15_l6637")
 
-[node name="GameTick" type="Timer" parent="."]
+[node name="Timers" type="Node" parent="."]
+
+[node name="GameTick" type="Timer" parent="Timers"]
+autostart = true
+
+[node name="BushTick" type="Timer" parent="Timers"]
+wait_time = 10.0
 autostart = true
 
 [connection signal="generation_finished" from="worldgen/NoiseGenerator" to="worldgen/GroundTiles" method="GenerationFinished"]
