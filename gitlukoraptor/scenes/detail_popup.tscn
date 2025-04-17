@@ -74,24 +74,24 @@ offset_right = 247.0
 offset_bottom = 23.0
 text = "State:"
 
-[node name="BushDetails" type="Node2D" parent="."]
+[node name="NatureDetails" type="Node2D" parent="."]
 visible = false
 
-[node name="resourceLbl" type="Label" parent="BushDetails"]
+[node name="resourceLbl" type="Label" parent="NatureDetails"]
 offset_left = 78.0
 offset_top = 88.0
 offset_right = 154.0
 offset_bottom = 111.0
 text = "Resource:"
 
-[node name="productionLbl" type="Label" parent="BushDetails"]
+[node name="productionLbl" type="Label" parent="NatureDetails"]
 offset_left = 166.0
 offset_top = 88.0
 offset_right = 256.0
 offset_bottom = 111.0
 text = "Production:"
 
-[node name="typeLbl" type="Label" parent="BushDetails"]
+[node name="typeLbl" type="Label" parent="NatureDetails"]
 offset_left = 80.0
 offset_top = 31.0
 offset_right = 128.0

@@ -21,6 +21,10 @@ public partial class idleState : State
         if (_pleb != null)
         {
             _pleb.Velocity = _pleb.direction * _pleb.speed;
+            if (rdm.Next(20) == 10)
+            {
+                _pleb.Velocity = Vector2.Zero;
+            }
             _pleb.Animate();
         }
         if (wanderTime > 0)

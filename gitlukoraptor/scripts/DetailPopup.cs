@@ -15,14 +15,14 @@ public partial class DetailPopup : Panel
     private Label _state;
     private StateMachine _stateMachine;
     
-    //Bush Details
+    //Nature Details
     private Label _resource;
     private Label _production;
     private Label _type;
 
     //Detail variables
     private Node2D _plebDetails;
-    private Node2D _bushDetails;
+    private Node2D _natureDetails;
     private Entity _entity;
 
     public override void _Ready()
@@ -35,10 +35,10 @@ public partial class DetailPopup : Panel
         _favoriteToggle = GetNode<CheckButton>("CommonDetails/favorite/favoriteToggle"); 
         _hunger = GetNode<Label>("PlebDetails/hungerLbl"); 
         _state  = GetNode<Label>("PlebDetails/stateLbl"); 
-        _bushDetails = GetNode<Node2D>("BushDetails");
-        _resource = GetNode<Label>("BushDetails/resourceLbl"); 
-        _production  = GetNode<Label>("BushDetails/productionLbl"); 
-        _type  = GetNode<Label>("BushDetails/typeLbl");
+        _natureDetails = GetNode<Node2D>("NatureDetails");
+        _resource = GetNode<Label>("NatureDetails/resourceLbl"); 
+        _production  = GetNode<Label>("NatureDetails/productionLbl"); 
+        _type  = GetNode<Label>("NatureDetails/typeLbl");
     }
     
     public void Display(Entity entity)
@@ -52,19 +52,19 @@ public partial class DetailPopup : Panel
                     oldPleb.showDetails = false;
             }
             _stateMachine = pleb.GetNode<StateMachine>("StateMachine");
-            _bushDetails.Visible = false;
+            _natureDetails.Visible = false;
             _plebDetails.Visible = true;
         }
-        if (entity is Bush)
+        if (entity is NatureObject)
         {
-            Bush bush = entity as Bush;
-            Bush oldBush = _entity as Bush;
-            if (oldBush != null && oldBush != bush)
+            NatureObject nature = entity as NatureObject;
+            NatureObject oldnature = _entity as NatureObject;
+            if (oldnature != null && oldnature != nature)
             {
-                oldBush.showDetails = false;
+                oldnature.showDetails = false;
             }
             
-            _bushDetails.Visible = true;
+            _natureDetails.Visible = true;
             _plebDetails.Visible = false;
         }
         Visible = true;
@@ -85,19 +85,19 @@ public partial class DetailPopup : Panel
             _name.Text = "Pleb - " + pleb.name;
             _team.Text = "Team: " + pleb.team;
             _favoriteToggle.ButtonPressed = pleb.favorite;
-            _health.Text = "Health:\n" + pleb.health;
+            _health.Text = "Health:\n" + pleb.health + "/" + pleb.maxHealth;
             _hunger.Text = "Hunger:\n" + pleb.hunger;
             _state.Text = "State:\n" + _stateMachine.currentState.Name.ToString().Substring(0, _stateMachine.currentState.Name.ToString().Length-5);
         }
-        if (_entity is Bush){
-            Bush bush = _entity as Bush;
-            _textureRect.Texture = bush.sprite.Texture;
-            _name.Text = bush.name;
-            _type.Text = "Type: " + bush.type;
-            _favoriteToggle.ButtonPressed = bush.favorite;
-            _health.Text = "Health:\n" + bush.health;
-            _resource.Text = "Resource:\n" + bush.resourceCount;
-            _production.Text = "Production:\n" + bush.resourceProduction;
+        if (_entity is NatureObject){
+            NatureObject nature = _entity as NatureObject;
+            _textureRect.Texture = nature.sprite.Texture;
+            _name.Text = nature.name;
+            _type.Text = "Type: " + nature.type;
+            _favoriteToggle.ButtonPressed = nature.favorite;
+            _health.Text = "Health:\n" + nature.health + "/" + nature.maxHealth;
+            _resource.Text = "Resource:\n" + nature.resourceCount;
+            _production.Text = "Production:\n" + nature.resourceProduction;
             
         }
     }
@@ -107,9 +107,9 @@ public partial class DetailPopup : Panel
             Pleb pleb = _entity as Pleb;
             pleb.showDetails = false;
         }
-        if(_entity is Bush){
-            Bush bush = _entity as Bush;
-            bush.showDetails = false;
+        if(_entity is NatureObject){
+            NatureObject nature = _entity as NatureObject;
+            nature.showDetails = false;
         }
         this.Visible = false;
     }
@@ -127,10 +127,10 @@ public partial class DetailPopup : Panel
             Pleb pleb = _entity as Pleb;
             pleb.favorite = toggle;
         }
-        if (_entity is Bush)
+        if (_entity is NatureObject)
         {
-            Bush bush = _entity as Bush;
-            bush.favorite = toggle;
+            NatureObject nature = _entity as NatureObject;
+            nature.favorite = toggle;
         }
     }
 }

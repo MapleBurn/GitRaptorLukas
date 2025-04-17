@@ -10,12 +10,13 @@ public partial class Pleb : CharacterBody2D, Entity
 	public Vector2 direction = Vector2.Zero;
 	public AnimatedSprite2D sprite;
 	public float speed = 50f;
+	Random rnd = new Random();
 	
 	//pleb data
 	public int maxHealth = 100;
-	public int health = 1;
-	public int hunger = 20;
-	public string name = "Ignac";
+	public int health = 100;
+	public int hunger = 75;
+	public string name = "Ignacio";
 	public bool favorite = false;
 	public string team = "none";
 	public bool isDead = false;
@@ -26,7 +27,7 @@ public partial class Pleb : CharacterBody2D, Entity
 	
 	public override void _Ready()
 	{
-		gameTimer = GetNode<Timer>("/root/world1/Timers/GameTick");
+		gameTimer = GetNode<Timer>("/root/world1/Timers/PlebTimer");
 		dieTimer = GetNode<Timer>("DieTimer");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
@@ -34,6 +35,8 @@ public partial class Pleb : CharacterBody2D, Entity
 		gameTimer.Timeout += () => gameTimer_Tick();
 
 		name = GenerateName();
+		speed += rnd.Next(-10, 15);
+		hunger += rnd.Next(25);
 	}
 	
 	public override void _PhysicsProcess(double delta)
@@ -78,7 +81,6 @@ public partial class Pleb : CharacterBody2D, Entity
 
 	public string GenerateName()
 	{
-		Random rnd = new Random();
 		string name = "";
 		char[] vowels = ['a', 'e', 'i', 'o', 'u', '&'];
 		char[] consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '&', '&'];
@@ -147,14 +149,6 @@ public partial class Pleb : CharacterBody2D, Entity
 		if (showDetails)
 			detailPopup.CloseDetail();
 
-		dieTimer.Timeout += () =>		//tick funkce ale postiženě napsané
-		{
-			QueueFree();
-		};
+		dieTimer.Timeout += () => { QueueFree(); };
 	}
-
-	//private void DieTimerTimeout()
-	//{
-	//	QueueFree();
-	//}
 }

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class gatherState : State
 {
@@ -9,8 +10,8 @@ public partial class gatherState : State
     
     private Random rdm =  new Random();
     private double wanderTime = 0;
-    private bool isSearchingForBush = true;
-    private Bush closestBush;
+    private bool isSearchingForFood = true;
+    private NatureObject closestFood;
     
     public override void Enter()
     {
@@ -24,30 +25,32 @@ public partial class gatherState : State
         if (wanderTime > 0)
             wanderTime -= delta;
         
-        if (isSearchingForBush)
+        if (isSearchingForFood)
         {
             _pleb.Velocity = _pleb.direction * _pleb.speed;
             if (wanderTime <= 0)
                 RandomizeWander();
-            SearchForBush();
+            SearchForFood();
         }
         
-        if (!isSearchingForBush) 
+        if (!isSearchingForFood) 
         {
             //Pleb found bush and takes food from it
-            if (closestBush != null && (closestBush.Position - _pleb.Position).Length() <= 10)
+            if (closestFood != null  && (closestFood.Position - _pleb.Position).Length() <= 10)
             {
                 int takeAmount = 100 - _pleb.hunger;
-                if (takeAmount <= closestBush.resourceCount)
+                if (takeAmount <= closestFood.resourceCount)
                 {
                     _pleb.hunger += takeAmount;
-                    closestBush.resourceCount -= takeAmount;
+                    closestFood.resourceCount -= takeAmount;
                 }
                 else
                 {
-                    _pleb.hunger += closestBush.resourceCount;
-                    closestBush.resourceCount = 0;
+                    _pleb.hunger += closestFood.resourceCount;
+                    closestFood.resourceCount = 0;
                 }
+                closestFood.health -= rdm.Next(5);
+                _pleb.Velocity = Vector2.Zero;
             }
             else
             {
@@ -55,8 +58,7 @@ public partial class gatherState : State
             }
             if(_pleb.hunger < 80)
             {
-                isSearchingForBush = true;
-                //SearchForBush();
+                isSearchingForFood = true;
             }
         }
         
@@ -75,43 +77,47 @@ public partial class gatherState : State
         _pleb.MoveAndSlide();
     }
     
-    private void SearchForBush()
+    private void SearchForFood()
     {
         var bodies = detectionArea.GetOverlappingBodies();
         if (bodies != null && bodies.Count > 0)
         {
-            int bushCount = 0;
+            int foodSourceCount = 0;
             Vector2 shortest = new Vector2(10000, 10000);
             foreach (Node2D body in bodies)
             {
                 if (body.GetGroups().Contains("nature"))
                 {
-                    if (body is Bush)
+                    if (body is NatureObject)
                     {
-                        bushCount++;
-                        Bush bush = body as Bush; 
-                        if (bush.resourceCount > 0)
+                        NatureObject foodSource = body as NatureObject;
+                        if(foodSource.type == "Food")
                         {
-                            Vector2 position = body.GetPosition();
-                            Vector2 distance = position - _pleb.Position;
-                            if (distance.Length() < shortest.Length() && bush.resourceCount > 0)
+                            foodSourceCount++;
+                         
+                            if (foodSource.resourceCount > 0)
                             {
-                                shortest = distance;
-                                closestBush = bush;
+                                Vector2 position = body.GetPosition();
+                                Vector2 distance = position - _pleb.Position;
+                                if (distance.Length() < shortest.Length() && foodSource.resourceCount > 0)
+                                {
+                                    shortest = distance;
+                                    closestFood = foodSource;
+                                }
                             }
+                            _pleb.direction = shortest.Normalized();
+                        
                         }
-                        _pleb.direction = shortest.Normalized();
                     }
                 }
             }
-            if (bushCount > 0)
-                isSearchingForBush = false;
+            if (foodSourceCount > 0)
+                isSearchingForFood = false;
         }
     }
     
     private void RandomizeWander()
     {
-        //isSearchingForBush = true;
         _pleb.direction = new Vector2(rdm.Next(-100, 100) / 100f, rdm.Next(-100, 100) / 100f).Normalized();
         wanderTime = rdm.Next(100, 400) / 100f;
     }
