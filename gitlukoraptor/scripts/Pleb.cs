@@ -9,7 +9,8 @@ public partial class Pleb : CharacterBody2D, Entity
 	private Timer dieTimer;
 	public Vector2 direction = Vector2.Zero;
 	public AnimatedSprite2D sprite;
-	public float speed = 50f;
+	public float baseSpeed = 50f;
+	public float speed;
 	Random rnd = new Random();
 	
 	//pleb data
@@ -20,10 +21,12 @@ public partial class Pleb : CharacterBody2D, Entity
 	public bool favorite = false;
 	public string team = "none";
 	public bool isDead = false;
+	public bool isOnWater = false;
 	
 	
 	public bool showDetails;
 	DetailPopup detailPopup;
+	private TileMapLayer map;
 	
 	public override void _Ready()
 	{
@@ -31,16 +34,30 @@ public partial class Pleb : CharacterBody2D, Entity
 		dieTimer = GetNode<Timer>("DieTimer");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
+		map = GetNode<TileMapLayer>("/root/world1/worldgen/GroundTiles");
 		
 		gameTimer.Timeout += () => gameTimer_Tick();
 
 		name = GenerateName();
-		speed += rnd.Next(-10, 15);
+		baseSpeed += rnd.Next(-10, 15);
+		speed = baseSpeed;
 		hunger += rnd.Next(25);
 	}
 	
 	public override void _PhysicsProcess(double delta)
-	{
+	{ 
+		Vector2I tilePos = (Vector2I)(Position / 16);
+		Vector2I Celltype = map.GetCellAtlasCoords(tilePos);
+		if (Celltype == new Vector2I(0, 0) || Celltype == new Vector2I(1, 0))
+		{
+			isOnWater = true;
+			speed = baseSpeed / 2;
+		}
+		else
+		{
+			isOnWater = false;
+			speed = baseSpeed;
+		}
 	}
 	
 	private void gameTimer_Tick()
@@ -78,8 +95,8 @@ public partial class Pleb : CharacterBody2D, Entity
 			detailPopup.Display(this);
 		}
 	}
-
-	public string GenerateName()
+	
+	private string GenerateName()
 	{
 		string name = "";
 		char[] vowels = ['a', 'e', 'i', 'o', 'u', '&'];
@@ -139,6 +156,8 @@ public partial class Pleb : CharacterBody2D, Entity
 			sprite.FlipH = true;
 			sprite.Play("walk");
 		}
+		if (isOnWater)
+			sprite.Play("swim");
 	}
 	
 	public void Die()

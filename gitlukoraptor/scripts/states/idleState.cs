@@ -21,10 +21,7 @@ public partial class idleState : State
         if (_pleb != null)
         {
             _pleb.Velocity = _pleb.direction * _pleb.speed;
-            if (rdm.Next(20) == 10)
-            {
-                _pleb.Velocity = Vector2.Zero;
-            }
+
             _pleb.Animate();
         }
         if (wanderTime > 0)
@@ -52,7 +49,12 @@ public partial class idleState : State
 
     private void RandomizeWander()
     {
-        _pleb.direction = new Vector2(rdm.Next(-100, 100) / 100f, rdm.Next(-100, 100) / 100f).Normalized();
+        if (rdm.Next(20) < 8)
+        {
+            _pleb.direction = Vector2.Zero;
+        }
+        else
+            _pleb.direction = new Vector2(rdm.Next(-100, 100) / 100f, rdm.Next(-100, 100) / 100f).Normalized();
         wanderTime = rdm.Next(100, 400) / 100f;
     }
 }

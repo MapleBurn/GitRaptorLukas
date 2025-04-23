@@ -1,10 +1,11 @@
-[gd_scene load_steps=26 format=3 uid="uid://c8cms1wu7ydc6"]
+[gd_scene load_steps=28 format=3 uid="uid://c8cms1wu7ydc6"]
 
 [ext_resource type="Script" uid="uid://dyfwlxp8bvniu" path="res://scripts/Pleb.cs" id="1_us0bb"]
 [ext_resource type="Texture2D" uid="uid://b2iguh5kc81fe" path="res://assets/pleb/pleb_death-Sheet.png" id="2_c2tjx"]
 [ext_resource type="Texture2D" uid="uid://clksyeod62nfv" path="res://assets/pleb/pleb_idle-Sheet.png" id="2_yeii3"]
 [ext_resource type="Texture2D" uid="uid://bap0fr2ewbela" path="res://assets/pleb/pleb_walk-Sheet.png" id="3_c2tjx"]
 [ext_resource type="Script" uid="uid://cvyusjv6pw35h" path="res://scripts/StateMachine.cs" id="3_tp18g"]
+[ext_resource type="Texture2D" uid="uid://dlnhqbxx02qdr" path="res://assets/icon.svg" id="4_whbhq"]
 [ext_resource type="Script" uid="uid://cxo3g2kut1d2v" path="res://scripts/states/idleState.cs" id="4_yeii3"]
 [ext_resource type="Script" uid="uid://ib5bbgvxpdie" path="res://scripts/states/gatherState.cs" id="6_c2tjx"]
 [ext_resource type="Script" uid="uid://c5etolji13chc" path="res://scripts/states/attackState.cs" id="7_whbhq"]
@@ -49,6 +50,10 @@ region = Rect2(16, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_n2vii"]
 atlas = ExtResource("2_yeii3")
 region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mr7tn"]
+atlas = ExtResource("4_whbhq")
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x7nae"]
 atlas = ExtResource("3_c2tjx")
@@ -106,6 +111,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_mr7tn")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_x7nae")
 }, {
 "duration": 1.0,
@@ -132,8 +145,9 @@ input_pickable = true
 script = ExtResource("1_us0bb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_jqgdk")
-animation = &"idle"
+animation = &"swim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cnkod")

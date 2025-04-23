@@ -76,6 +76,8 @@ public partial class DetailPopup : Panel
         if (_entity is Pleb){
             Pleb pleb = _entity as Pleb;
             
+            if  (pleb.isDead)
+                return;
             //vezme current frame a udělá z něj texture - needs fixing
             SpriteFrames spriteFrames = pleb.sprite.SpriteFrames;
             string animationName = pleb.sprite.Animation;

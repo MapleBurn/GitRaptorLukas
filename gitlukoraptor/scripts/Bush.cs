@@ -5,6 +5,8 @@ using System.Runtime.Intrinsics.Arm;
 public partial class Bush : NatureObject
 {
     private Random rdm = new Random();
+    
+    //initialize
     public override void Prepare()
     {
         
