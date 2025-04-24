@@ -49,7 +49,7 @@ public partial class gatherState : State
         if (!isSearchingForFood) 
         {
             //Pleb found bush and takes food from it
-            if (closestFood != null  && (closestFood.Position - _pleb.Position).Length() <= 10)
+            if (closestFood != null  && _pleb.navAgent.IsNavigationFinished())
             {
                 int takeAmount = 100 - _pleb.hunger;
                 if (takeAmount <= closestFood.resourceCount)
@@ -67,8 +67,8 @@ public partial class gatherState : State
             }
             else
             {
-                Vector2 currentAgentPos = _pleb.Position;
-                Vector2 nextPos = _pleb.agent.GetNextPathPosition();
+                Vector2 currentAgentPos = _pleb.GlobalPosition;
+                Vector2 nextPos = _pleb.navAgent.GetNextPathPosition();
                 _pleb.Velocity = currentAgentPos.DirectionTo(nextPos) * _pleb.speed;
             }
             if(_pleb.hunger < 80)
@@ -76,7 +76,6 @@ public partial class gatherState : State
                 isSearchingForFood = true;
             }
         }
-        
         _pleb.MoveAndSlide();
     }
     
@@ -100,8 +99,8 @@ public partial class gatherState : State
                          
                             if (foodSource.resourceCount > 0)
                             {
-                                Vector2 position = body.GetPosition();
-                                Vector2 distance = position - _pleb.Position;
+                                Vector2 position = body.GetGlobalPosition();
+                                Vector2 distance = position - _pleb.GlobalPosition;
                                 if (distance.Length() < shortest.Length() && foodSource.resourceCount > 0)
                                 {
                                     shortest = distance;
@@ -109,7 +108,7 @@ public partial class gatherState : State
                                 }
                             }
                             //_pleb.direction = shortest.Normalized();
-                            _pleb.agent.TargetPosition = closestFood.Position;
+                            _pleb.navAgent.TargetPosition = closestFood.GlobalPosition;
                         }
                     }
                 }

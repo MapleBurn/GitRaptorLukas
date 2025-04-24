@@ -12,7 +12,7 @@ public partial class Pleb : CharacterBody2D, Entity
 	public float baseSpeed = 50f;
 	public float speed;
 	Random rnd = new Random();
-	public NavigationAgent2D agent;
+	public NavigationAgent2D navAgent;
 	
 	//pleb data
 	public int maxHealth = 100;
@@ -23,6 +23,7 @@ public partial class Pleb : CharacterBody2D, Entity
 	public string team = "none";
 	public bool isDead = false;
 	public bool isOnWater = false;
+	public float moveRadius = 200f;
 	
 	
 	public bool showDetails;
@@ -36,7 +37,7 @@ public partial class Pleb : CharacterBody2D, Entity
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
 		map = GetNode<TileMapLayer>("/root/world1/worldgen/GroundTiles");
-		agent = GetNode<NavigationAgent2D>("NavigationAgent2D");
+		navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		
 		gameTimer.Timeout += () => gameTimer_Tick();
 

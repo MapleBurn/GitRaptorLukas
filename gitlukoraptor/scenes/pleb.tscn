@@ -1,11 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://c8cms1wu7ydc6"]
+[gd_scene load_steps=31 format=3 uid="uid://c8cms1wu7ydc6"]
 
 [ext_resource type="Script" uid="uid://dyfwlxp8bvniu" path="res://scripts/Pleb.cs" id="1_us0bb"]
 [ext_resource type="Texture2D" uid="uid://b2iguh5kc81fe" path="res://assets/pleb/pleb_death-Sheet.png" id="2_c2tjx"]
 [ext_resource type="Texture2D" uid="uid://clksyeod62nfv" path="res://assets/pleb/pleb_idle-Sheet.png" id="2_yeii3"]
 [ext_resource type="Texture2D" uid="uid://bap0fr2ewbela" path="res://assets/pleb/pleb_walk-Sheet.png" id="3_c2tjx"]
 [ext_resource type="Script" uid="uid://cvyusjv6pw35h" path="res://scripts/StateMachine.cs" id="3_tp18g"]
-[ext_resource type="Texture2D" uid="uid://dlnhqbxx02qdr" path="res://assets/icon.svg" id="4_whbhq"]
+[ext_resource type="Texture2D" uid="uid://oyjg08wv8hkv" path="res://assets/pleb/pleb_swim-Sheet.png" id="4_whbhq"]
 [ext_resource type="Script" uid="uid://cxo3g2kut1d2v" path="res://scripts/states/idleState.cs" id="4_yeii3"]
 [ext_resource type="Script" uid="uid://ib5bbgvxpdie" path="res://scripts/states/gatherState.cs" id="6_c2tjx"]
 [ext_resource type="Script" uid="uid://c5etolji13chc" path="res://scripts/states/attackState.cs" id="7_whbhq"]
@@ -53,7 +53,19 @@ region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mr7tn"]
 atlas = ExtResource("4_whbhq")
-region = Rect2(0, 0, 128, 128)
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6oefn"]
+atlas = ExtResource("4_whbhq")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hfyaa"]
+atlas = ExtResource("4_whbhq")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mlnka"]
+atlas = ExtResource("4_whbhq")
+region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x7nae"]
 atlas = ExtResource("3_c2tjx")
@@ -112,10 +124,19 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mr7tn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6oefn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hfyaa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mlnka")
 }],
 "loop": true,
 "name": &"swim",
-"speed": 5.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -133,7 +154,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnkod"]
-size = Vector2(21, 26)
+size = Vector2(18.5, 24.75)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n1bth"]
 radius = 350.0
@@ -147,9 +168,10 @@ script = ExtResource("1_us0bb")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_jqgdk")
-animation = &"death"
+animation = &"swim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.25, -6.625)
 shape = SubResource("RectangleShape2D_cnkod")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("inicialState")]
@@ -179,12 +201,14 @@ collision_layer = 32
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+visible = false
 shape = SubResource("CircleShape2D_n1bth")
-debug_color = Color(1, 0.000887435, 0.0813889, 0.42)
+debug_color = Color(0, 0.556871, 0.685941, 0.42)
 
 [node name="DieTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
 
 [connection signal="timeout" from="DieTimer" to="." method="DieTimerTimeout"]
