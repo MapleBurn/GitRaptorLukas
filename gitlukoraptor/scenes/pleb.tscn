@@ -147,7 +147,7 @@ script = ExtResource("1_us0bb")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_jqgdk")
-animation = &"swim"
+animation = &"death"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cnkod")
@@ -184,5 +184,7 @@ debug_color = Color(1, 0.000887435, 0.0813889, 0.42)
 
 [node name="DieTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [connection signal="timeout" from="DieTimer" to="." method="DieTimerTimeout"]

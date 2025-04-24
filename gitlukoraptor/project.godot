@@ -87,6 +87,7 @@ clickMiddle={
 [layer_names]
 
 2d_physics/layer_1="camera"
+2d_navigation/layer_1="plebNav"
 2d_physics/layer_2="map_border"
 2d_physics/layer_3="tilemap"
 2d_physics/layer_4="Pleb"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://b2vpmxnpph62p"]
+[gd_scene load_steps=42 format=3 uid="uid://b2vpmxnpph62p"]
 
 [ext_resource type="Script" uid="uid://bxnhnxu6xaii3" path="res://addons/gaea/renderers/2D/tilemap_gaea_renderer.gd" id="1_mibss"]
 [ext_resource type="Script" uid="uid://bknpty6ymv6ba" path="res://scripts/World1.cs" id="1_ymduc"]
@@ -167,6 +167,24 @@ texture_region_size = Vector2i(20, 10)
 [sub_resource type="TileSet" id="TileSet_iujmb"]
 sources/0 = SubResource("TileSetAtlasSource_1b7io")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_0e5nu"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_hqfdy"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_un572"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w0i4s"]
 resource_name = "worldTiles"
 texture = ExtResource("4_o7wde")
@@ -176,16 +194,20 @@ texture = ExtResource("4_o7wde")
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:0/0 = 0
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0e5nu")
 3:0/0 = 0
 3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hqfdy")
 4:0/0 = 0
 4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_un572")
 5:0/0 = 0
 5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_3u1wx"]
 physics_layer_0/collision_layer = 4
 physics_layer_0/collision_mask = 0
+navigation_layer_0/layers = 1
 sources/1 = SubResource("TileSetAtlasSource_w0i4s")
 
 [node name="world1" type="Node2D" node_paths=PackedStringArray("_generator")]

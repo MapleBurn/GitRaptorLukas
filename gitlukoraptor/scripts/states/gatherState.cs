@@ -33,6 +33,19 @@ public partial class gatherState : State
             SearchForFood();
         }
         
+        _pleb.Animate();
+        
+        if (_pleb.hunger >= 80)
+        {
+            EmitSignal(SignalName.StateChanged, this, "idleState");
+        }
+    }
+
+    public override void PhysicsUpdate(double delta)
+    {
+        if (_pleb.isDead)
+            return;
+        
         if (!isSearchingForFood) 
         {
             //Pleb found bush and takes food from it
@@ -54,7 +67,9 @@ public partial class gatherState : State
             }
             else
             {
-                _pleb.Velocity = _pleb.direction * _pleb.speed;
+                Vector2 currentAgentPos = _pleb.Position;
+                Vector2 nextPos = _pleb.agent.GetNextPathPosition();
+                _pleb.Velocity = currentAgentPos.DirectionTo(nextPos) * _pleb.speed;
             }
             if(_pleb.hunger < 80)
             {
@@ -62,18 +77,6 @@ public partial class gatherState : State
             }
         }
         
-        _pleb.Animate();
-        
-        if (_pleb.hunger >= 80)
-        {
-            EmitSignal(SignalName.StateChanged, this, "idleState");
-        }
-    }
-
-    public override void PhysicsUpdate(double delta)
-    {
-        if (_pleb.isDead)
-            return;
         _pleb.MoveAndSlide();
     }
     
@@ -105,8 +108,8 @@ public partial class gatherState : State
                                     closestFood = foodSource;
                                 }
                             }
-                            _pleb.direction = shortest.Normalized();
-                        
+                            //_pleb.direction = shortest.Normalized();
+                            _pleb.agent.TargetPosition = closestFood.Position;
                         }
                     }
                 }
