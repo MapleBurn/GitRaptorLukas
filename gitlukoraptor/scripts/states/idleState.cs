@@ -16,18 +16,20 @@ public partial class idleState : State
 
     public override void Update(double delta)
     {
-        if (_pleb.isDead)
+        if (_pleb.isDead && _pleb == null)
             return;
-        if (_pleb != null)
-        {
-            _pleb.Velocity = _pleb.direction * _pleb.speed;
-
-            _pleb.Animate();
-        }
-        if (wanderTime > 0)
-            wanderTime -= delta;
-        else
+        Vector2 currentAgentPos = _pleb.GlobalPosition;
+        Vector2 nextPos = _pleb.navAgent.GetNextPathPosition();
+        _pleb.direction = currentAgentPos.DirectionTo(nextPos);
+        _pleb.Velocity = currentAgentPos.DirectionTo(nextPos) * _pleb.speed;
+        
+        if (_pleb.navAgent.IsNavigationFinished() && wanderTime <= 0)
             RandomizeWander();
+        else
+            wanderTime -= delta;
+        
+        _pleb.Animate();
+        
         if (_pleb.hunger <= 50)
         {
             Exit();
@@ -57,28 +59,39 @@ public partial class idleState : State
     //        _pleb.direction = new Vector2(rdm.Next(-100, 100) / 100f, rdm.Next(-100, 100) / 100f).Normalized();
     //    wanderTime = rdm.Next(100, 400) / 100f;
     //}
-
+    
     private void RandomizeWander()
     {
-        Vector2 randomOffset;
-        Vector2 randomPoint;
-        Vector2 navigablePoint;
-        int attempts = 10;
-        var navMap = _pleb.navAgent.GetNavigationMap();
         
-        for (int i = 0; i < attempts; i++)
+        if (rdm.Next(20) < 8 && !_pleb.isOnWater)
         {
-            randomOffset = Vector2.Right.Rotated((float)(GD.Randf() * MathF.Tau)) * (float)(GD.Randf() * _pleb.moveRadius);
-            randomPoint = _pleb.GlobalPosition + randomOffset;
-            navigablePoint = NavigationServer2D.MapGetClosestPoint(navMap, randomPoint);
+            _pleb.direction = Vector2.Zero;
+            _pleb.navAgent.TargetPosition = _pleb.GlobalPosition;
+            wanderTime = rdm.Next(100, 400) / 100f;
+            return;
+        }
+        var origin = _pleb.GlobalPosition;
+        var map = _pleb.navAgent.GetNavigationMap();
+        int MaxAttempts = 10;
 
-            //kontroluje jestli point není moc daleko
-            if (navigablePoint.DistanceTo(_pleb.GlobalPosition) <= _pleb.moveRadius * 1.5f)
+        for (int i = 0; i < MaxAttempts; i++)
+        {
+            // Generate a random point in a circle
+            float angle = (float)(GD.Randf() * Mathf.Tau);
+            float distance = (float)(GD.Randf() * _pleb.moveRadius);
+            Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
+            Vector2 candidate = origin + offset;
+
+            // Project to nearest point on navigation mesh
+            Vector2 projected = NavigationServer2D.MapGetClosestPoint(map, candidate);
+
+            // Check if path is valid
+            var path = NavigationServer2D.MapGetPath(map, origin, projected, false);
+            if (path.Length > 0)
             {
-                _pleb.navAgent.TargetPosition = navigablePoint;
+                _pleb.navAgent.TargetPosition = projected;
                 return;
             }
         }
-        GD.Print("Couldn't find navigable point after several tries.");
     }
 }
