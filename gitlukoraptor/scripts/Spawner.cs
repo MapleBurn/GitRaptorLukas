@@ -5,8 +5,8 @@ public partial class Spawner : Node2D
 { 
 	private PackedScene _pleb;
 	public bool isToggledPleb;
-	public static Rid navMap;
-	private static bool initialized = false;
+
+	private bool onceSpawned = false;
 	
 	public override void _Ready()
 	{
@@ -18,19 +18,17 @@ public partial class Spawner : Node2D
 		
 	}
 
-	public static void Init(NavigationAgent2D anyAgent)
-	{
-		if (initialized) return;
-		navMap = anyAgent.GetNavigationMap();
-		initialized = true;
-	}
-
 	public void SpawnPleb(Vector2 pos)
 	{
 		Pleb pleb = (Pleb)_pleb.Instantiate();
 		AddChild(pleb);
 		pleb.ZIndex = 100;
 		pleb.Position = pos;
+		if (!onceSpawned)
+		{
+			onceSpawned = true;
+			Pleb.navMap = pleb.navAgent.GetNavigationMap();
+		}
 	}
 	
 	private void BtnPlebPressed()

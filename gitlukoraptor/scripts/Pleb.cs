@@ -13,6 +13,7 @@ public partial class Pleb : CharacterBody2D, Entity
 	public float speed;
 	public static readonly Random rdm = new Random();
 	public NavigationAgent2D navAgent;
+	public static Rid navMap;
 	
 	//pleb data
 	public int maxHealth = 100;
@@ -27,8 +28,8 @@ public partial class Pleb : CharacterBody2D, Entity
 	
 	
 	public bool showDetails;
-	DetailPopup detailPopup;
-	private TileMapLayer map;
+	private static DetailPopup detailPopup;
+	private static TileMapLayer map;
 	
 	public override void _Ready()
 	{
@@ -45,8 +46,6 @@ public partial class Pleb : CharacterBody2D, Entity
 		baseSpeed += rdm.Next(-10, 15);
 		speed = baseSpeed;
 		hunger += rdm.Next(25);
-
-		//CallDeferred(Spawner.Init(navAgent));
 	}
 	
 	public override void _PhysicsProcess(double delta)

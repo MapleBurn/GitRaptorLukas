@@ -12,7 +12,6 @@ public partial class gatherState : State
     private double wanderTime = 0;
     private bool isSearchingForFood = true;
     private NatureObject closestFood;
-    private Rid map =  Spawner.navMap;
     
     public override void Enter()
     {

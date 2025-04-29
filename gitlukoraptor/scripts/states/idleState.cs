@@ -7,7 +7,6 @@ public partial class idleState : State
     [Export] private AnimatedSprite2D _animation;
     private double wanderTime;
     private Random rdm = Pleb.rdm;
-    private Rid map = Spawner.navMap;
 
     public override void Enter()
     {
@@ -72,6 +71,7 @@ public partial class idleState : State
             return;
         }
         var origin = _pleb.GlobalPosition;
+        Rid map = Pleb.navMap;
         int MaxAttempts = 10;
 
         for (int i = 0; i < MaxAttempts; i++)

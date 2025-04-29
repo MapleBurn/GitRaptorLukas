@@ -18,7 +18,7 @@ public partial class NatureObject : StaticBody2D, Entity
     
     //other nodes
     private Timer resourceTimer;
-    private DetailPopup detailPopup;
+    private static DetailPopup detailPopup;
     
     public override void _Ready()
     {
