@@ -5,17 +5,24 @@ public partial class Spawner : Node2D
 { 
 	private PackedScene _pleb;
 	public bool isToggledPleb;
+	public static Rid navMap;
+	private static bool initialized = false;
 	
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_pleb = (PackedScene)GD.Load("res://scenes/pleb.tscn");
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	
 	public override void _Process(double delta)
 	{
 		
+	}
+
+	public static void Init(NavigationAgent2D anyAgent)
+	{
+		if (initialized) return;
+		navMap = anyAgent.GetNavigationMap();
+		initialized = true;
 	}
 
 	public void SpawnPleb(Vector2 pos)

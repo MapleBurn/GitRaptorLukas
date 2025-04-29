@@ -7,11 +7,12 @@ public partial class gatherState : State
 {
     [Export] private Pleb _pleb;
     [Export] private Area2D detectionArea;
-    
-    private Random rdm =  new Random();
+
+    private Random rdm = Pleb.rdm;
     private double wanderTime = 0;
     private bool isSearchingForFood = true;
     private NatureObject closestFood;
+    private Rid map =  Spawner.navMap;
     
     public override void Enter()
     {
@@ -96,7 +97,7 @@ public partial class gatherState : State
                         if(foodSource.type == "Food")
                         {
                             foodSourceCount++;
-                         
+
                             if (foodSource.resourceCount > 0)
                             {
                                 Vector2 position = body.GetGlobalPosition();
@@ -106,9 +107,9 @@ public partial class gatherState : State
                                     shortest = distance;
                                     closestFood = foodSource;
                                 }
+
+                                _pleb.navAgent.TargetPosition = closestFood.GlobalPosition;
                             }
-                            //_pleb.direction = shortest.Normalized();
-                            _pleb.navAgent.TargetPosition = closestFood.GlobalPosition;
                         }
                     }
                 }

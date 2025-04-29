@@ -11,7 +11,7 @@ public partial class Pleb : CharacterBody2D, Entity
 	public AnimatedSprite2D sprite;
 	public float baseSpeed = 50f;
 	public float speed;
-	Random rnd = new Random();
+	public static readonly Random rdm = new Random();
 	public NavigationAgent2D navAgent;
 	
 	//pleb data
@@ -42,9 +42,11 @@ public partial class Pleb : CharacterBody2D, Entity
 		gameTimer.Timeout += () => gameTimer_Tick();
 
 		name = GenerateName();
-		baseSpeed += rnd.Next(-10, 15);
+		baseSpeed += rdm.Next(-10, 15);
 		speed = baseSpeed;
-		hunger += rnd.Next(25);
+		hunger += rdm.Next(25);
+
+		//CallDeferred(Spawner.Init(navAgent));
 	}
 	
 	public override void _PhysicsProcess(double delta)
@@ -104,22 +106,22 @@ public partial class Pleb : CharacterBody2D, Entity
 		string name = "";
 		char[] vowels = ['a', 'e', 'i', 'o', 'u', '&'];
 		char[] consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '&', '&'];
-		if (rnd.Next(5) > 1)
+		if (rdm.Next(5) > 1)
 		{
 			bool wasVowelLast = true;
 			for (int i = 0; i <= 10; i++)
 			{
 				char letter;
-				if (rnd.Next(100) < 70)
+				if (rdm.Next(100) < 70)
 				{
 					if (wasVowelLast)
 					{
-						letter = consonants[rnd.Next(consonants.Length)];
+						letter = consonants[rdm.Next(consonants.Length)];
 						wasVowelLast = false;
 					}
 					else
 					{
-						letter = vowels[rnd.Next(vowels.Length)];
+						letter = vowels[rdm.Next(vowels.Length)];
 						wasVowelLast = true;
 					}
 
@@ -139,7 +141,7 @@ public partial class Pleb : CharacterBody2D, Entity
 		}
 		else
 		{
-			name = namePresets[rnd.Next(namePresets.Length)];
+			name = namePresets[rdm.Next(namePresets.Length)];
 		}
 		name = char.ToUpper(name[0]) + name.Substring(1);
 		return name;

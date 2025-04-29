@@ -168,7 +168,7 @@ script = ExtResource("1_us0bb")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_jqgdk")
-animation = &"idle"
+animation = &"swim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.25, -6.625)

@@ -5,8 +5,9 @@ public partial class idleState : State
 {
     [Export] private Pleb _pleb;
     [Export] private AnimatedSprite2D _animation;
-    private Random rdm = new Random();
     private double wanderTime;
+    private Random rdm = Pleb.rdm;
+    private Rid map = Spawner.navMap;
 
     public override void Enter()
     {
@@ -71,7 +72,6 @@ public partial class idleState : State
             return;
         }
         var origin = _pleb.GlobalPosition;
-        var map = _pleb.navAgent.GetNavigationMap();
         int MaxAttempts = 10;
 
         for (int i = 0; i < MaxAttempts; i++)
@@ -84,6 +84,9 @@ public partial class idleState : State
 
             // Project to nearest point on navigation mesh
             Vector2 projected = NavigationServer2D.MapGetClosestPoint(map, candidate);
+            Vector2 counterVector = -offset * (float)rdm.NextDouble();
+            if (projected != candidate)
+                projected = NavigationServer2D.MapGetClosestPoint(map, projected + counterVector);
 
             // Check if path is valid
             var path = NavigationServer2D.MapGetPath(map, origin, projected, false);
