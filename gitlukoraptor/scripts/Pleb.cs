@@ -25,7 +25,7 @@ public partial class Pleb : CharacterBody2D, Entity
 	public bool isDead = false;
 	public bool isOnWater = false;
 	public float moveRadius = 200f;
-	
+	public double wanderTime;
 	
 	public bool showDetails;
 	private static DetailPopup detailPopup;
@@ -173,5 +173,46 @@ public partial class Pleb : CharacterBody2D, Entity
 			detailPopup.CloseDetail();
 
 		dieTimer.Timeout += () => { QueueFree(); };
+	}
+	
+	public void RandomizeWander(bool search)
+	{
+		if (rdm.Next(20) < 8 && !isOnWater && !search)
+		{
+			direction = Vector2.Zero;
+			navAgent.TargetPosition = GlobalPosition;
+			wanderTime = rdm.Next(100, 400) / 100f;
+			return;
+		}
+		
+		var origin = GlobalPosition;
+		Rid map = navMap;
+		int MaxAttempts = 10;
+		
+
+		for (int i = 0; i < MaxAttempts; i++)
+		{
+			// Generate a random point in a circle
+			float angle = (float)(GD.Randf() * Mathf.Tau);
+			float distance = (float)(GD.Randf() * moveRadius);
+			Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
+			Vector2 candidate = origin + offset;
+
+
+			
+			// Project to nearest point on navigation mesh
+			Vector2 projected = NavigationServer2D.MapGetClosestPoint(map, candidate);
+			Vector2 counterVector = -offset * (float)rdm.NextDouble();
+			if (projected != candidate)
+				projected = NavigationServer2D.MapGetClosestPoint(map, projected + counterVector);
+			
+			// Check if path is valid
+			var path = NavigationServer2D.MapGetPath(map, origin, projected, false);
+			if (path.Length > 0)
+			{
+				navAgent.TargetPosition = projected;
+				return;
+			}
+		}
 	}
 }

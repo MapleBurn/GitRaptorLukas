@@ -15,9 +15,11 @@ public partial class gatherState : State
     
     public override void Enter()
     {
-        RandomizeWander();
+        CallDeferred(nameof(call));;
     }
 
+    private void call() { _pleb.RandomizeWander(true); } 
+    
     public override void Update(double delta)
     {
         if (_pleb.isDead || _pleb == null)
@@ -29,7 +31,7 @@ public partial class gatherState : State
         {
             _pleb.Velocity = _pleb.direction * _pleb.speed;
             if (wanderTime <= 0)
-                RandomizeWander();
+                _pleb.RandomizeWander(true);
             SearchForFood();
         }
         
@@ -43,13 +45,13 @@ public partial class gatherState : State
 
     public override void PhysicsUpdate(double delta)
     {
-        if (_pleb.isDead)
+        if (_pleb.isDead || _pleb == null)
             return;
         
         if (!isSearchingForFood) 
         {
             //Pleb found bush and takes food from it
-            if (closestFood != null  && _pleb.navAgent.IsNavigationFinished())
+            if (closestFood != null  && _pleb.navAgent.IsNavigationFinished() && closestFood.GlobalPosition.DistanceTo(_pleb.GlobalPosition) <= 10)
             {
                 int takeAmount = 100 - _pleb.hunger;
                 if (takeAmount <= closestFood.resourceCount)
@@ -116,11 +118,5 @@ public partial class gatherState : State
             if (foodSourceCount > 0)
                 isSearchingForFood = false;
         }
-    }
-    
-    private void RandomizeWander()
-    {
-        _pleb.direction = new Vector2(rdm.Next(-100, 100) / 100f, rdm.Next(-100, 100) / 100f).Normalized();
-        wanderTime = rdm.Next(100, 400) / 100f;
     }
 }
