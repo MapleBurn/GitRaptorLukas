@@ -15,10 +15,8 @@ public partial class gatherState : State
     
     public override void Enter()
     {
-        CallDeferred(nameof(call));;
+        _pleb.CallDeferred(nameof(_pleb.RandomizeWander));
     }
-
-    private void call() { _pleb.RandomizeWander(true); } 
     
     public override void Update(double delta)
     {
@@ -31,7 +29,7 @@ public partial class gatherState : State
         {
             _pleb.Velocity = _pleb.direction * _pleb.speed;
             if (wanderTime <= 0)
-                _pleb.RandomizeWander(true);
+                _pleb.RandomizeWander();
             SearchForFood();
         }
         
@@ -51,7 +49,8 @@ public partial class gatherState : State
         if (!isSearchingForFood) 
         {
             //Pleb found bush and takes food from it
-            if (closestFood != null  && _pleb.navAgent.IsNavigationFinished() && closestFood.GlobalPosition.DistanceTo(_pleb.GlobalPosition) <= 10)
+            //massive issue - closestFood can get deleted, and then we're trying to access a disposed object
+            if (closestFood != null  && _pleb.navAgent.IsNavigationFinished() && closestFood.GlobalPosition.DistanceTo(_pleb.GlobalPosition) <= 100)
             {
                 int takeAmount = 100 - _pleb.hunger;
                 if (takeAmount <= closestFood.resourceCount)

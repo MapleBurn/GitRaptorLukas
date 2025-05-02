@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://clksyeod62nfv" path="res://assets/pleb/pleb_idle-Sheet.png" id="2_yeii3"]
 [ext_resource type="Texture2D" uid="uid://bap0fr2ewbela" path="res://assets/pleb/pleb_walk-Sheet.png" id="3_c2tjx"]
 [ext_resource type="Script" uid="uid://cvyusjv6pw35h" path="res://scripts/StateMachine.cs" id="3_tp18g"]
-[ext_resource type="Texture2D" uid="uid://oyjg08wv8hkv" path="res://assets/pleb/pleb_swim-Sheet.png" id="4_whbhq"]
+[ext_resource type="Texture2D" uid="uid://cqbaqponnbl5i" path="res://assets/pleb/pleb_swim-Sheet.png" id="4_whbhq"]
 [ext_resource type="Script" uid="uid://cxo3g2kut1d2v" path="res://scripts/states/idleState.cs" id="4_yeii3"]
 [ext_resource type="Script" uid="uid://ib5bbgvxpdie" path="res://scripts/states/gatherState.cs" id="6_c2tjx"]
 [ext_resource type="Script" uid="uid://c5etolji13chc" path="res://scripts/states/attackState.cs" id="7_whbhq"]
@@ -168,7 +168,7 @@ script = ExtResource("1_us0bb")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_jqgdk")
-animation = &"swim"
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.25, -6.625)
@@ -209,5 +209,6 @@ debug_color = Color(0, 0.556871, 0.685941, 0.42)
 one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
 
 [connection signal="timeout" from="DieTimer" to="." method="DieTimerTimeout"]

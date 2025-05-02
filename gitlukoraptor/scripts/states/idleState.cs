@@ -9,11 +9,9 @@ public partial class idleState : State
 
     public override void Enter()
     {
-        CallDeferred(nameof(call));
+        _pleb.CallDeferred(nameof(_pleb.RandomizeWander));
         _animation.Play("idle");
     }
-
-    private void call() { _pleb.RandomizeWander(false); }   //ugly but solves the problem with calldeferred9
 
     public override void Update(double delta)
     {
@@ -25,7 +23,7 @@ public partial class idleState : State
         _pleb.Velocity = currentAgentPos.DirectionTo(nextPos) * _pleb.speed;
         
         if (_pleb.navAgent.IsNavigationFinished() && _pleb.wanderTime <= 0)
-            _pleb.RandomizeWander(false);
+            _pleb.RandomizeWander();
         else
             _pleb.wanderTime -= delta;
         

@@ -175,9 +175,10 @@ public partial class Pleb : CharacterBody2D, Entity
 		dieTimer.Timeout += () => { QueueFree(); };
 	}
 	
-	public void RandomizeWander(bool search)
+	public void RandomizeWander()
 	{
-		if (rdm.Next(20) < 8 && !isOnWater && !search)
+		//Pleb doesn't keep walking all the time
+		if (rdm.Next(20) < 8 && !isOnWater)
 		{
 			direction = Vector2.Zero;
 			navAgent.TargetPosition = GlobalPosition;
@@ -185,10 +186,10 @@ public partial class Pleb : CharacterBody2D, Entity
 			return;
 		}
 		
-		var origin = GlobalPosition;
+		Vector2 origin = GlobalPosition;
+		float minPathLength = 50f;
 		Rid map = navMap;
 		int MaxAttempts = 10;
-		
 
 		for (int i = 0; i < MaxAttempts; i++)
 		{
@@ -197,22 +198,21 @@ public partial class Pleb : CharacterBody2D, Entity
 			float distance = (float)(GD.Randf() * moveRadius);
 			Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
 			Vector2 candidate = origin + offset;
-
-
 			
 			// Project to nearest point on navigation mesh
 			Vector2 projected = NavigationServer2D.MapGetClosestPoint(map, candidate);
-			Vector2 counterVector = -offset * (float)rdm.NextDouble();
-			if (projected != candidate)
-				projected = NavigationServer2D.MapGetClosestPoint(map, projected + counterVector);
 			
 			// Check if path is valid
 			var path = NavigationServer2D.MapGetPath(map, origin, projected, false);
-			if (path.Length > 0)
+			if (path.Length > 0 && (projected - origin).Length() > minPathLength)
 			{
 				navAgent.TargetPosition = projected;
 				return;
 			}
 		}
+		//if all attempts would fail
+		direction = Vector2.Zero;
+		navAgent.TargetPosition = GlobalPosition;
+		wanderTime = rdm.Next(100, 400) / 100f;
 	}
 }
