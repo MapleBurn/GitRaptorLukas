@@ -25,16 +25,6 @@ public partial class gatherState : State
         if (wanderTime > 0)
             wanderTime -= delta;
         
-        if (isSearchingForFood)
-        {
-            _pleb.Velocity = _pleb.direction * _pleb.speed;
-            if (wanderTime <= 0)
-                _pleb.RandomizeWander();
-            SearchForFood();
-        }
-        
-        _pleb.Animate();
-        
         if (_pleb.hunger >= 80)
         {
             EmitSignal(SignalName.StateChanged, this, "idleState");
@@ -46,11 +36,19 @@ public partial class gatherState : State
         if (_pleb.isDead || _pleb == null)
             return;
         
+        if (isSearchingForFood)
+        {
+            _pleb.Velocity = _pleb.direction * _pleb.speed;
+            if (wanderTime <= 0)
+                _pleb.RandomizeWander();
+            SearchForFood();
+        }
+        
         if (!isSearchingForFood) 
         {
             //Pleb found bush and takes food from it
             //massive issue - closestFood can get deleted, and then we're trying to access a disposed object
-            if (closestFood != null  && _pleb.navAgent.IsNavigationFinished() && closestFood.GlobalPosition.DistanceTo(_pleb.GlobalPosition) <= 100)
+            if (closestFood != null  && _pleb.navAgent.IsNavigationFinished() /*&& closestFood.GlobalPosition.DistanceTo(_pleb.GlobalPosition) <= 100*/)
             {
                 int takeAmount = 100 - _pleb.hunger;
                 if (takeAmount <= closestFood.resourceCount)
@@ -65,6 +63,10 @@ public partial class gatherState : State
                 }
                 closestFood.health -= rdm.Next(5);
                 _pleb.Velocity = Vector2.Zero;
+                if(_pleb.hunger < 80)
+                {
+                    isSearchingForFood = true;
+                }
             }
             else
             {
@@ -72,11 +74,9 @@ public partial class gatherState : State
                 Vector2 nextPos = _pleb.navAgent.GetNextPathPosition();
                 _pleb.Velocity = currentAgentPos.DirectionTo(nextPos) * _pleb.speed;
             }
-            if(_pleb.hunger < 80)
-            {
-                isSearchingForFood = true;
-            }
         }
+        
+        _pleb.Animate();
         _pleb.MoveAndSlide();
     }
     

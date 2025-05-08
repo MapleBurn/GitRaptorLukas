@@ -17,19 +17,8 @@ public partial class idleState : State
     {
         if (_pleb.isDead && _pleb == null)
             return;
-        Vector2 currentAgentPos = _pleb.GlobalPosition;
-        Vector2 nextPos = _pleb.navAgent.GetNextPathPosition();
-        _pleb.direction = currentAgentPos.DirectionTo(nextPos);
-        _pleb.Velocity = currentAgentPos.DirectionTo(nextPos) * _pleb.speed;
         
-        if (_pleb.navAgent.IsNavigationFinished() && _pleb.wanderTime <= 0)
-            _pleb.RandomizeWander();
-        else
-            _pleb.wanderTime -= delta;
-        
-        _pleb.Animate();
-        
-        if (_pleb.hunger <= 50)
+        if (_pleb.hunger <= 50 && _pleb.navAgent.IsNavigationFinished())
         {
             Exit();
             EmitSignal(State.SignalName.StateChanged, this, "gatherState");
@@ -40,6 +29,21 @@ public partial class idleState : State
     {
         if (_pleb.isDead)
             return;
+        
+        if (_pleb.navAgent.IsNavigationFinished() && _pleb.wanderTime <= 0)
+            _pleb.RandomizeWander();
+        else
+            _pleb.wanderTime -= delta;
+        
+        if (!_pleb.navAgent.IsNavigationFinished())
+        {
+            Vector2 currentAgentPos = _pleb.GlobalPosition;
+            Vector2 nextPos = _pleb.navAgent.GetNextPathPosition();
+            _pleb.direction = currentAgentPos.DirectionTo(nextPos);
+            _pleb.Velocity = currentAgentPos.DirectionTo(nextPos) * _pleb.speed;
+        }
+        
+        _pleb.Animate();
         _pleb.MoveAndSlide();
     }
 

@@ -148,6 +148,8 @@ public partial class Pleb : CharacterBody2D, Entity
 
 	public void Animate()
 	{
+		if (isOnWater)
+			sprite.Play("swim");
 		if (Velocity == Vector2.Zero)
 			sprite.Play("idle");
 		else if (direction > Vector2.Zero)
@@ -160,8 +162,6 @@ public partial class Pleb : CharacterBody2D, Entity
 			sprite.FlipH = true;
 			sprite.Play("walk");
 		}
-		if (isOnWater)
-			sprite.Play("swim");
 	}
 	
 	public void Die()
@@ -174,15 +174,21 @@ public partial class Pleb : CharacterBody2D, Entity
 
 		dieTimer.Timeout += () => { QueueFree(); };
 	}
+
+	public void StandStill()
+	{
+		direction = Vector2.Zero;
+		Velocity = Vector2.Zero;
+		navAgent.TargetPosition = GlobalPosition;
+		wanderTime = rdm.Next(100, 400) / 100f;
+	}
 	
 	public void RandomizeWander()
 	{
 		//Pleb doesn't keep walking all the time
 		if (rdm.Next(20) < 8 && !isOnWater)
 		{
-			direction = Vector2.Zero;
-			navAgent.TargetPosition = GlobalPosition;
-			wanderTime = rdm.Next(100, 400) / 100f;
+			StandStill();
 			return;
 		}
 		
@@ -211,8 +217,6 @@ public partial class Pleb : CharacterBody2D, Entity
 			}
 		}
 		//if all attempts would fail
-		direction = Vector2.Zero;
-		navAgent.TargetPosition = GlobalPosition;
-		wanderTime = rdm.Next(100, 400) / 100f;
+		StandStill();
 	}
 }
