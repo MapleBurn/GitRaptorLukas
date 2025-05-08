@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c8cms1wu7ydc6"]
+[gd_scene load_steps=34 format=3 uid="uid://c8cms1wu7ydc6"]
 
 [ext_resource type="Script" uid="uid://dyfwlxp8bvniu" path="res://scripts/Pleb.cs" id="1_us0bb"]
 [ext_resource type="Texture2D" uid="uid://b2iguh5kc81fe" path="res://assets/pleb/pleb_death-Sheet.png" id="2_c2tjx"]
@@ -6,10 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://bap0fr2ewbela" path="res://assets/pleb/pleb_walk-Sheet.png" id="3_c2tjx"]
 [ext_resource type="Script" uid="uid://cvyusjv6pw35h" path="res://scripts/StateMachine.cs" id="3_tp18g"]
 [ext_resource type="Texture2D" uid="uid://cqbaqponnbl5i" path="res://assets/pleb/pleb_swim-Sheet.png" id="4_whbhq"]
-[ext_resource type="Script" uid="uid://cxo3g2kut1d2v" path="res://scripts/states/idleState.cs" id="4_yeii3"]
-[ext_resource type="Script" uid="uid://ib5bbgvxpdie" path="res://scripts/states/gatherState.cs" id="6_c2tjx"]
-[ext_resource type="Script" uid="uid://c5etolji13chc" path="res://scripts/states/attackState.cs" id="7_whbhq"]
-[ext_resource type="Script" uid="uid://bcno2mx7glxnd" path="res://scripts/states/retreatState.cs" id="8_iaafh"]
+[ext_resource type="Script" uid="uid://cxo3g2kut1d2v" path="res://scripts/states/IdleState.cs" id="4_yeii3"]
+[ext_resource type="Script" uid="uid://ib5bbgvxpdie" path="res://scripts/states/GatherState.cs" id="6_c2tjx"]
+[ext_resource type="Script" uid="uid://c5etolji13chc" path="res://scripts/states/AttackState.cs" id="7_whbhq"]
+[ext_resource type="Script" uid="uid://bcno2mx7glxnd" path="res://scripts/states/RetreatState.cs" id="8_iaafh"]
+[ext_resource type="Script" uid="uid://c4fpxuuen8cef" path="res://scripts/states/WanderState.cs" id="8_n2vii"]
+[ext_resource type="Script" uid="uid://bo8no2ges0ynq" path="res://scripts/states/SwimState.cs" id="11_iaafh"]
+[ext_resource type="Script" uid="uid://t082d6dpqymm" path="res://scripts/states/DeathState.cs" id="13_x7nae"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jqgdk"]
 atlas = ExtResource("2_c2tjx")
@@ -178,10 +181,18 @@ shape = SubResource("RectangleShape2D_cnkod")
 script = ExtResource("3_tp18g")
 inicialState = NodePath("idleState")
 
-[node name="idleState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb", "_animation")]
+[node name="idleState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb")]
 script = ExtResource("4_yeii3")
 _pleb = NodePath("../..")
-_animation = NodePath("../../AnimatedSprite2D")
+
+[node name="wanderState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb", "detectionArea")]
+script = ExtResource("8_n2vii")
+_pleb = NodePath("../..")
+detectionArea = NodePath("../../DetectionArea")
+
+[node name="swimState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb")]
+script = ExtResource("11_iaafh")
+_pleb = NodePath("../..")
 
 [node name="gatherState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb", "detectionArea")]
 script = ExtResource("6_c2tjx")
@@ -194,6 +205,10 @@ _pleb = NodePath("../..")
 
 [node name="retreatState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb")]
 script = ExtResource("8_iaafh")
+_pleb = NodePath("../..")
+
+[node name="deathState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb")]
+script = ExtResource("13_x7nae")
 _pleb = NodePath("../..")
 
 [node name="DetectionArea" type="Area2D" parent="."]

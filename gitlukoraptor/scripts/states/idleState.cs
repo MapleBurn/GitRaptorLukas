@@ -1,54 +1,56 @@
 using Godot;
 using System;
 
-public partial class idleState : State
+public partial class IdleState : State
 {
+    //nodes
     [Export] private Pleb _pleb;
-    [Export] private AnimatedSprite2D _animation;
+    //[Export]
+    private AnimatedSprite2D animatedSprite;
+    
+    //variables
     private Random rdm = Pleb.rdm;
+    private double idleTime;
 
     public override void Enter()
     {
-        _pleb.CallDeferred(nameof(_pleb.RandomizeWander));
-        _animation.Play("idle");
+        _pleb.Initialize();
+        animatedSprite = _pleb.sprite;
+        animatedSprite.Play("idle");
+        
+        _pleb.direction = Vector2.Zero;
+        _pleb.Velocity = Vector2.Zero;
+        idleTime = (float)rdm.Next(50, 300) / 100f;
     }
 
     public override void Update(double delta)
     {
-        if (_pleb.isDead && _pleb == null)
-            return;
+        idleTime -= delta;
         
-        if (_pleb.hunger <= 50 && _pleb.navAgent.IsNavigationFinished())
+        if (_pleb.isOnWater)
+        {
+            Exit();
+            EmitSignal(State.SignalName.StateChanged, this, "swimState");
+        }
+        if (_pleb.hunger <= (_pleb.maxHunger / 2) && idleTime <= 0)
         {
             Exit();
             EmitSignal(State.SignalName.StateChanged, this, "gatherState");
+        }
+        else if (idleTime <= 0)
+        {
+            Exit();
+            EmitSignal(State.SignalName.StateChanged, this, "wanderState");
         }
     }
 
     public override void PhysicsUpdate(double delta)
     {
-        if (_pleb.isDead)
-            return;
-        
-        if (_pleb.navAgent.IsNavigationFinished() && _pleb.wanderTime <= 0)
-            _pleb.RandomizeWander();
-        else
-            _pleb.wanderTime -= delta;
-        
-        if (!_pleb.navAgent.IsNavigationFinished())
-        {
-            Vector2 currentAgentPos = _pleb.GlobalPosition;
-            Vector2 nextPos = _pleb.navAgent.GetNextPathPosition();
-            _pleb.direction = currentAgentPos.DirectionTo(nextPos);
-            _pleb.Velocity = currentAgentPos.DirectionTo(nextPos) * _pleb.speed;
-        }
-        
-        _pleb.Animate();
         _pleb.MoveAndSlide();
     }
 
     public override void Exit()
     {
-        _animation.Stop();
+        animatedSprite.Stop();
     }
 }

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Pleb : CharacterBody2D, Entity
 {
@@ -14,18 +15,22 @@ public partial class Pleb : CharacterBody2D, Entity
 	public static readonly Random rdm = new Random();
 	public NavigationAgent2D navAgent;
 	public static Rid navMap;
+	private bool initialized;
 	
 	//pleb data
 	public int maxHealth = 100;
-	public int health = 100;
-	public int hunger = 75;
+	public int health;
+	public int maxHunger = 100;
+	public int hunger;
 	public string name = "Ignacio";
 	public bool favorite = false;
 	public string team = "none";
-	public bool isDead = false;
-	public bool isOnWater = false;
-	public float moveRadius = 200f;
-	public double wanderTime;
+	
+	//additional state data
+	public bool isDead;
+	public bool isOnWater;
+	public enum MemoryKey { lastSeenBush, travelPoint };	//serves as an enum of all possible keys for the memory dictionary (made for mistake prevention)
+	public Dictionary<MemoryKey, Vector2> memory = new Dictionary<MemoryKey, Vector2>();	//pleb will store useful information about what it has seen (for example the last bush pleb saw)
 	
 	public bool showDetails;
 	private static DetailPopup detailPopup;
@@ -33,19 +38,16 @@ public partial class Pleb : CharacterBody2D, Entity
 	
 	public override void _Ready()
 	{
-		gameTimer = GetNode<Timer>("/root/world1/Timers/PlebTimer");
-		dieTimer = GetNode<Timer>("DieTimer");
-		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
-		map = GetNode<TileMapLayer>("/root/world1/worldgen/GroundTiles");
-		navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
-		
+		if (!initialized)
+			Initialize();
 		gameTimer.Timeout += () => gameTimer_Tick();
 
 		name = GenerateName();
 		baseSpeed += rdm.Next(-10, 15);
+		maxHunger += rdm.Next(-10, 10);
 		speed = baseSpeed;
-		hunger += rdm.Next(25);
+		health = maxHealth;
+		hunger = maxHunger;
 	}
 	
 	public override void _PhysicsProcess(double delta)
@@ -53,15 +55,20 @@ public partial class Pleb : CharacterBody2D, Entity
 		Vector2I tilePos = (Vector2I)(Position / 16);
 		Vector2I Celltype = map.GetCellAtlasCoords(tilePos);
 		if (Celltype == new Vector2I(0, 0) || Celltype == new Vector2I(1, 0))
-		{
 			isOnWater = true;
-			speed = baseSpeed / 2;
-		}
 		else
-		{
 			isOnWater = false;
-			speed = baseSpeed;
-		}
+	}
+
+	public void Initialize()
+	{
+		gameTimer = GetNode<Timer>("/root/world1/Timers/PlebTimer");
+		dieTimer = GetNode<Timer>("DieTimer");
+		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
+		map = GetNode<TileMapLayer>("/root/world1/worldgen/GroundTiles");
+		navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
+		initialized = true;
 	}
 	
 	private void gameTimer_Tick()
@@ -79,7 +86,7 @@ public partial class Pleb : CharacterBody2D, Entity
 			hunger--;
 
 		//healing when not hungry
-		if (hunger > 80 && health < maxHealth)
+		if (hunger > (float)maxHunger / 100f * 80f && health < maxHealth)
 		{ 
 			health++;
 			hunger--;
@@ -145,24 +152,6 @@ public partial class Pleb : CharacterBody2D, Entity
 		name = char.ToUpper(name[0]) + name.Substring(1);
 		return name;
 	}
-
-	public void Animate()
-	{
-		if (isOnWater)
-			sprite.Play("swim");
-		if (Velocity == Vector2.Zero)
-			sprite.Play("idle");
-		else if (direction > Vector2.Zero)
-		{
-			sprite.FlipH = false;
-			sprite.Play("walk");
-		}
-		else if (direction < Vector2.Zero)
-		{
-			sprite.FlipH = true;
-			sprite.Play("walk");
-		}
-	}
 	
 	public void Die()
 	{
@@ -173,50 +162,5 @@ public partial class Pleb : CharacterBody2D, Entity
 			detailPopup.CloseDetail();
 
 		dieTimer.Timeout += () => { QueueFree(); };
-	}
-
-	public void StandStill()
-	{
-		direction = Vector2.Zero;
-		Velocity = Vector2.Zero;
-		navAgent.TargetPosition = GlobalPosition;
-		wanderTime = rdm.Next(100, 400) / 100f;
-	}
-	
-	public void RandomizeWander()
-	{
-		//Pleb doesn't keep walking all the time
-		if (rdm.Next(20) < 8 && !isOnWater)
-		{
-			StandStill();
-			return;
-		}
-		
-		Vector2 origin = GlobalPosition;
-		float minPathLength = 50f;
-		Rid map = navMap;
-		int MaxAttempts = 10;
-
-		for (int i = 0; i < MaxAttempts; i++)
-		{
-			// Generate a random point in a circle
-			float angle = (float)(GD.Randf() * Mathf.Tau);
-			float distance = (float)(GD.Randf() * moveRadius);
-			Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
-			Vector2 candidate = origin + offset;
-			
-			// Project to nearest point on navigation mesh
-			Vector2 projected = NavigationServer2D.MapGetClosestPoint(map, candidate);
-			
-			// Check if path is valid
-			var path = NavigationServer2D.MapGetPath(map, origin, projected, false);
-			if (path.Length > 0 && (projected - origin).Length() > minPathLength)
-			{
-				navAgent.TargetPosition = projected;
-				return;
-			}
-		}
-		//if all attempts would fail
-		StandStill();
 	}
 }

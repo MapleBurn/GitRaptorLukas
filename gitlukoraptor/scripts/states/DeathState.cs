@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class RetreatState : State
+public partial class DeathState : State
 {
     //nodes
     [Export] private Pleb _pleb;
