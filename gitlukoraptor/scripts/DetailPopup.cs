@@ -8,7 +8,7 @@ public partial class DetailPopup : Panel
     private Label _name;
     private Label _health;
     
-    //Pleb Details
+    //Living Details
     private Label _team;
     private CheckButton _favoriteToggle;
     private Label _hunger;
@@ -21,7 +21,7 @@ public partial class DetailPopup : Panel
     private Label _type;
 
     //Detail variables
-    private Node2D _plebDetails;
+    private Node2D _livingDetails;
     private Node2D _natureDetails;
     private Entity _entity;
 
@@ -30,11 +30,11 @@ public partial class DetailPopup : Panel
         _textureRect = GetNode<TextureRect>("CommonDetails/TextureRect"); 
         _name = GetNode<Label>("CommonDetails/nameLbl"); 
         _health = GetNode<Label>("CommonDetails/healthLbl"); 
-        _plebDetails = GetNode<Node2D>("PlebDetails"); 
-        _team = GetNode<Label>("PlebDetails/teamLbl"); 
+        _livingDetails = GetNode<Node2D>("LivingDetails"); 
+        _team = GetNode<Label>("LivingDetails/teamLbl"); 
         _favoriteToggle = GetNode<CheckButton>("CommonDetails/favorite/favoriteToggle"); 
-        _hunger = GetNode<Label>("PlebDetails/hungerLbl"); 
-        _state  = GetNode<Label>("PlebDetails/stateLbl"); 
+        _hunger = GetNode<Label>("LivingDetails/hungerLbl"); 
+        _state  = GetNode<Label>("LivingDetails/stateLbl"); 
         _natureDetails = GetNode<Node2D>("NatureDetails");
         _resource = GetNode<Label>("NatureDetails/resourceLbl"); 
         _production  = GetNode<Label>("NatureDetails/productionLbl"); 
@@ -43,17 +43,17 @@ public partial class DetailPopup : Panel
     
     public void Display(Entity entity)
     {
-        if (entity is Pleb)
+        if (entity is LivingObject)
         {
-            Pleb pleb = entity as Pleb;
-            Pleb oldPleb = _entity as Pleb;
-            if (oldPleb != null && oldPleb != pleb)
+            LivingObject living = entity as LivingObject;
+            LivingObject oldLiving = _entity as LivingObject;
+            if (oldLiving != null && oldLiving != living)
             {
-                    oldPleb.showDetails = false;
+                    oldLiving.showDetails = false;
             }
-            _stateMachine = pleb.GetNode<StateMachine>("StateMachine");
+            _stateMachine = living.GetNode<StateMachine>("StateMachine");
             _natureDetails.Visible = false;
-            _plebDetails.Visible = true;
+            _livingDetails.Visible = true;
         }
         if (entity is NatureObject)
         {
@@ -65,7 +65,7 @@ public partial class DetailPopup : Panel
             }
             
             _natureDetails.Visible = true;
-            _plebDetails.Visible = false;
+            _livingDetails.Visible = false;
         }
         Visible = true;
         _entity = entity;
@@ -73,22 +73,22 @@ public partial class DetailPopup : Panel
     }
     public void Update()
     {
-        if (_entity is Pleb){
-            Pleb pleb = _entity as Pleb;
+        if (_entity is LivingObject){
+            LivingObject living = _entity as LivingObject;
             
-            if  (pleb.isDead)
+            if  (living.isDead)
                 return;
             //vezme current frame a udělá z něj texture - needs fixing
-            SpriteFrames spriteFrames = pleb.sprite.SpriteFrames;
-            string animationName = pleb.sprite.Animation;
-            int frameIndex = pleb.sprite.Frame;
+            SpriteFrames spriteFrames = living.sprite.SpriteFrames;
+            string animationName = living.sprite.Animation;
+            int frameIndex = living.sprite.Frame;
             _textureRect.Texture = spriteFrames.GetFrameTexture(animationName, frameIndex);;
             
-            _name.Text = "Pleb - " + pleb.name;
-            _team.Text = "Team: " + pleb.team;
-            _favoriteToggle.ButtonPressed = pleb.favorite;
-            _health.Text = "Health:\n" + pleb.health + "/" + pleb.maxHealth;
-            _hunger.Text = "Hunger:\n" + pleb.hunger;
+            _name.Text = _entity.GetType() + " - " + living.name;
+            _team.Text = "Team: " + living.team;
+            _favoriteToggle.ButtonPressed = living.favorite;
+            _health.Text = "Health:\n" + living.health + "/" + living.maxHealth;
+            _hunger.Text = "Hunger:\n" + living.hunger + "/" + living.maxHunger;
             _state.Text = "State:\n" + _stateMachine.currentState.Name.ToString().Substring(0, _stateMachine.currentState.Name.ToString().Length-5);
         }
         if (_entity is NatureObject){
@@ -105,9 +105,9 @@ public partial class DetailPopup : Panel
     }
     public void CloseDetail()
     {
-        if(_entity is Pleb){
-            Pleb pleb = _entity as Pleb;
-            pleb.showDetails = false;
+        if(_entity is LivingObject){
+            LivingObject living = _entity as LivingObject;
+            living.showDetails = false;
         }
         if(_entity is NatureObject){
             NatureObject nature = _entity as NatureObject;
@@ -124,10 +124,10 @@ public partial class DetailPopup : Panel
 
     private void ToggleFavorite(bool toggle)
     {
-        if (_entity is Pleb)
+        if (_entity is LivingObject)
         {
-            Pleb pleb = _entity as Pleb;
-            pleb.favorite = toggle;
+            LivingObject living = _entity as LivingObject;
+            living.favorite = toggle;
         }
         if (_entity is NatureObject)
         {

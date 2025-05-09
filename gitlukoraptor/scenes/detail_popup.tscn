@@ -7,7 +7,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -252.0
-offset_right = 264.0
+offset_right = 276.0
 offset_bottom = -108.0
 grow_vertical = 0
 script = ExtResource("1_mbhj7")
@@ -51,28 +51,29 @@ offset_right = 64.0
 offset_bottom = 111.0
 text = "Health:"
 
-[node name="PlebDetails" type="Node2D" parent="."]
+[node name="LivingDetails" type="Node2D" parent="."]
 visible = false
 position = Vector2(8, 88)
 
-[node name="teamLbl" type="Label" parent="PlebDetails"]
+[node name="teamLbl" type="Label" parent="LivingDetails"]
 offset_left = 72.0
 offset_top = -57.0
 offset_right = 120.0
 offset_bottom = -34.0
 text = "Team:"
 
-[node name="hungerLbl" type="Label" parent="PlebDetails"]
+[node name="hungerLbl" type="Label" parent="LivingDetails"]
 offset_left = 101.0
 offset_right = 163.0
 offset_bottom = 23.0
 text = "Hunger:"
 
-[node name="stateLbl" type="Label" parent="PlebDetails"]
+[node name="stateLbl" type="Label" parent="LivingDetails"]
 offset_left = 202.0
 offset_right = 247.0
 offset_bottom = 23.0
-text = "State:"
+text = "State:
+"
 
 [node name="NatureDetails" type="Node2D" parent="."]
 visible = false
@@ -100,9 +101,9 @@ text = "Team:"
 
 [node name="closeBtn" type="Button" parent="."]
 layout_mode = 0
-offset_left = 224.0
+offset_left = 238.0
 offset_top = 8.0
-offset_right = 256.0
+offset_right = 270.0
 offset_bottom = 40.0
 focus_mode = 0
 text = "X
@@ -110,9 +111,9 @@ text = "X
 
 [node name="killBtn" type="Button" parent="."]
 layout_mode = 0
-offset_left = 224.0
+offset_left = 238.0
 offset_top = 48.0
-offset_right = 256.0
+offset_right = 270.0
 offset_bottom = 80.0
 focus_mode = 0
 text = "💀

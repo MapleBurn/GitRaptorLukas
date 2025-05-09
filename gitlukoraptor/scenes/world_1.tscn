@@ -257,7 +257,7 @@ script = ExtResource("15_l6637")
 
 [node name="Timers" type="Node" parent="."]
 
-[node name="PlebTimer" type="Timer" parent="Timers"]
+[node name="GameTimer" type="Timer" parent="Timers"]
 autostart = true
 
 [node name="ResourceTimer" type="Timer" parent="Timers"]
