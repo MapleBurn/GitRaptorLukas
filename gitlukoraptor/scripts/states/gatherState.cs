@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class GatherState : State
+public partial class gatherState : State
 {
     //nodes
     [Export] private Pleb _pleb;
@@ -40,6 +40,13 @@ public partial class GatherState : State
             animatedSprite.Play("walk");
         }
         
+        if (_pleb.isOnWater)
+        {
+            //we need to make the target position the bush, so change the navLayers and make path cost
+            _pleb.memory[Pleb.MemoryKey.travelPoint] = navAgent.TargetPosition;
+            Exit();
+            EmitSignal(State.SignalName.StateChanged, this, "swimState");
+        }
         if (_pleb.hunger >= (float)_pleb.maxHunger / 100f * 80f)
         {
             EmitSignal(SignalName.StateChanged, this, "idleState");
@@ -71,7 +78,6 @@ public partial class GatherState : State
                     closestFood.resourceCount = 0;
                 }
                 closestFood.health -= rdm.Next(5);
-                _pleb.Velocity = Vector2.Zero;
                 if(_pleb.hunger < (_pleb.maxHunger / 100) * 80)
                 {
                     foundFood = false;
@@ -95,10 +101,10 @@ public partial class GatherState : State
     
     private void SearchForFood()    //pleb searches in the detection area and chooses the closest bush with food as target if there is any
     {
+        int foodSourceCount = 0;
         var bodies = detectionArea.GetOverlappingBodies();
         if (bodies != null && bodies.Count > 0)
         {
-            int foodSourceCount = 0;
             Vector2 shortest = new Vector2(10000, 10000);
             foreach (Node2D body in bodies)
             {
@@ -127,18 +133,22 @@ public partial class GatherState : State
                     }
                 }
             }
-            if (foodSourceCount > 0)
-                foundFood = true;
+        }
+        if (foodSourceCount > 0)
+            foundFood = true;
+        else
+        {
+            if (_pleb.memory.TryGetValue(Pleb.MemoryKey.lastSeenBush, out Vector2 lastSeenBush))
+            {
+                navAgent.TargetPosition = lastSeenBush;
+                if (navAgent.IsNavigationFinished())
+                {
+                        _pleb.memory.Remove(Pleb.MemoryKey.lastSeenBush);
+                }
+            }
             else
             {
-                if (_pleb.memory.TryGetValue(Pleb.MemoryKey.lastSeenBush, out Vector2 lastSeenBush))
-                {
-                    navAgent.TargetPosition = lastSeenBush;
-                }
-                else
-                {
-                    RandomizeWander();
-                }
+                RandomizeWander();
             }
         }
     }

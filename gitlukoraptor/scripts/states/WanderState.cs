@@ -117,7 +117,13 @@ public partial class WanderState : State
         var bodies = detectionArea.GetOverlappingBodies();
         if (bodies != null && bodies.Count > 0)
         {
-            _pleb.memory[Pleb.MemoryKey.lastSeenBush] = bodies[0].GlobalPosition;
+            var body = bodies[0];
+            if (body is NatureObject)
+            {
+                NatureObject foodSource = body as NatureObject;
+                if (foodSource.type == "Food")
+                    _pleb.memory[Pleb.MemoryKey.lastSeenBush] = body.GlobalPosition;
+            }
         }
     }
 }

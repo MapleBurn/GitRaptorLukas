@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class AttackState : State
+public partial class attackState : State
 {
     //nodes
     [Export] private Pleb _pleb;

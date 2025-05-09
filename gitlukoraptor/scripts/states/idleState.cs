@@ -1,12 +1,11 @@
 using Godot;
 using System;
 
-public partial class IdleState : State
+public partial class idleState : State
 {
     //nodes
     [Export] private Pleb _pleb;
-    //[Export]
-    private AnimatedSprite2D animatedSprite;
+    AnimatedSprite2D animatedSprite;
     
     //variables
     private Random rdm = Pleb.rdm;
