@@ -1,5 +1,8 @@
 using Godot;
 using System;
+using System.Linq;
+using System.Runtime.InteropServices.JavaScript;
+using Godot.Collections;
 
 public partial class WanderState : State
 {
@@ -8,10 +11,12 @@ public partial class WanderState : State
     [Export] private Area2D detectionArea;
     private NavigationAgent2D navAgent;
     private AnimatedSprite2D animatedSprite;
+    private AStarGrid2D astarGrid;
     
     //variables
     private Random rdm = Pleb.rdm;
     private float moveRadius = 300f;
+    private Array<Vector2I> currentPath;
 
     public override void Enter()
     {
@@ -19,8 +24,9 @@ public partial class WanderState : State
         animatedSprite.Play("walk");
         
         navAgent = _pleb.navAgent;
-        
-        CallDeferred(nameof(RandomizeWander));
+        astarGrid = _pleb.astarGrid;
+        RandomizePath();
+        //CallDeferred(nameof(RandomizeWander));
     }
 
     public override void Update(double delta)
@@ -53,19 +59,20 @@ public partial class WanderState : State
     public override void PhysicsUpdate(double delta)
     {
         MemoryUpdate();
-        //calculate where to move to go to the randomly chosen point
-        if (!_pleb.navAgent.IsNavigationFinished())
+
+        if (currentPath.Count > 1)
         {
-            Vector2 currentAgentPos = _pleb.GlobalPosition;
-            Vector2 nextPos = _pleb.navAgent.GetNextPathPosition();
-            _pleb.direction = currentAgentPos.DirectionTo(nextPos);
-            _pleb.Velocity = currentAgentPos.DirectionTo(nextPos) * _pleb.speed;
+             currentPath.RemoveAt(0);    //remove the first point of the path as it's our position (we're already there)
+             var targetPos = _pleb.map.MapToLocal(currentPath[0]);
+        
+             _pleb.direction = (targetPos - _pleb.GlobalPosition).Normalized();
+             _pleb.Velocity = _pleb.direction * _pleb.speed;
         }
         else
         {
-            RandomizeWander();
+            RandomizePath();
         }
-        
+            
         _pleb.MoveAndSlide();
     }
 
@@ -74,7 +81,7 @@ public partial class WanderState : State
         animatedSprite.Stop();
     }
     
-    private void RandomizeWander()
+    private void RandomizePath()
     {
         //there a chance pleb will stop so it looks more natural
         if (rdm.Next(20) < 8)
@@ -83,31 +90,26 @@ public partial class WanderState : State
             EmitSignal(State.SignalName.StateChanged, this, "idleState");
         }
 		
-        Vector2 origin = _pleb.GlobalPosition;
-        float minPathLength = 50f;
-        Rid map = Pleb.navMap;
+        Vector2I position = _pleb.map.LocalToMap(_pleb.ToLocal(_pleb.GlobalPosition));
+        int moveRadius = 100;
         int maxAttempts = 10;
 
         for (int i = 0; i < maxAttempts; i++)
         {
-            // Generate a random point in a circle
-            float angle = GD.Randf() * Mathf.Tau;
-            float distance = GD.Randf() * moveRadius;
-            Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
-            Vector2 candidate = origin + offset;
-			
-            // Project to nearest point on navigation mesh
-            Vector2 projected = NavigationServer2D.MapGetClosestPoint(map, candidate);
-			
-            // Check if path is valid
-            var path = NavigationServer2D.MapGetPath(map, origin, projected, false);
-            if (path.Length > 0 && (projected - origin).Length() > minPathLength)
+            Vector2I movePoint = new Vector2I(rdm.Next(-moveRadius, moveRadius), rdm.Next(-moveRadius, moveRadius));
+            Vector2I candidate = _pleb.map.LocalToMap(position + movePoint);
+            
+            Vector2I cellType = _pleb.map.GetCellAtlasCoords(candidate);
+            if (cellType != _pleb.water || cellType != _pleb.shallow || cellType != _pleb.mountain)
             {
-                navAgent.TargetPosition = projected;
-                return;
+                candidate = new Vector2I(Mathf.Abs(candidate.X), Mathf.Abs(candidate.Y));   //has to be positive so it'll be on the map
+                if (candidate > _pleb.mapSize) //has to be on the map
+                    candidate = _pleb.mapSize;
+                currentPath = astarGrid.GetIdPath(position, candidate);
             }
         }
         //if all attempts would fail he stands still
+        GD.Print("I didn't find any path :O");
         Exit();
         EmitSignal(State.SignalName.StateChanged, this, "idleState");
     }

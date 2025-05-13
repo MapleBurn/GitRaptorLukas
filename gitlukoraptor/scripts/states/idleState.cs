@@ -13,7 +13,8 @@ public partial class idleState : State
 
     public override void Enter()
     {
-        _pleb.Initialize();
+        if (!_pleb.initialized)
+            _pleb.Initialize();
         animatedSprite = _pleb.sprite;
         animatedSprite.Play("idle");
         
