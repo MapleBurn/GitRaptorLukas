@@ -14,6 +14,9 @@ public partial class LivingObject : CharacterBody2D, Entity
 	public float speed;
 	public NavigationAgent2D navAgent;
 	public static Rid navMap;
+	private static TileMapLayer map;
+	//private NoiseGenerator generator;
+	public AStarGrid2D grid = new AStarGrid2D();
 	private bool initialized;
 	
 	public static readonly Random rdm = new Random();
@@ -32,7 +35,6 @@ public partial class LivingObject : CharacterBody2D, Entity
 	
 	public bool showDetails;
 	private static DetailPopup detailPopup;
-	private static TileMapLayer map;
 	
 	public override void _Ready()
 	{
@@ -61,6 +63,11 @@ public partial class LivingObject : CharacterBody2D, Entity
 		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
 		map = GetNode<TileMapLayer>("/root/world1/worldgen/GroundTiles");
 		navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
+
+		grid.Region = new Rect2I(0, 0, 512, 512);
+		grid.CellSize = new Vector2I(16, 16);
+		grid.Update();
+		
 		initialized = true;
 	}
 
