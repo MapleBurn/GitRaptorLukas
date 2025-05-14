@@ -14,23 +14,17 @@ public partial class LivingObject : CharacterBody2D, Entity
 	public AnimatedSprite2D sprite;
 	public NavigationAgent2D navAgent;
 	public static Rid navMap;
-<<<<<<< Updated upstream
-	private static TileMapLayer map;
-	//private NoiseGenerator generator;
-	public AStarGrid2D grid = new AStarGrid2D();
-	private bool initialized;
-=======
 	private static DetailPopup detailPopup;
 	public TileMapLayer map;
 	public bool initialized;
->>>>>>> Stashed changes
+
 	
 	//astar
 	public AStarGrid2D astarGrid = new AStarGrid2D();
 	public Vector2I mapSize;
-	public Vector2I shallow = new Vector2I(0, 0);
-	public Vector2I water = new Vector2I(1, 0);
-	public Vector2I mountain = new Vector2I(5, 0);
+	public static readonly Vector2I shallow = new Vector2I(0, 0);	//tile atlas coords for types of surfaces
+	public static readonly Vector2I water = new Vector2I(1, 0);
+	public static readonly Vector2I mountain = new Vector2I(5, 0);
 	
 	//variables
 	public static readonly Random rdm = new Random();
@@ -48,10 +42,6 @@ public partial class LivingObject : CharacterBody2D, Entity
 	public bool isDead;
 	public bool isOnWater;
 	public bool showDetails;
-<<<<<<< Updated upstream
-	private static DetailPopup detailPopup;
-=======
->>>>>>> Stashed changes
 	
 	public override void _Ready()
 	{
@@ -92,27 +82,6 @@ public partial class LivingObject : CharacterBody2D, Entity
 		else
 			isOnWater = false;
 	}
-<<<<<<< Updated upstream
-
-	public void Initialize()
-	{
-		gameTimer = GetNode<Timer>("/root/world1/Timers/GameTimer");
-		dieTimer = GetNode<Timer>("DieTimer");
-		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
-		map = GetNode<TileMapLayer>("/root/world1/worldgen/GroundTiles");
-		navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
-
-		grid.Region = new Rect2I(0, 0, 512, 512);
-		grid.CellSize = new Vector2I(16, 16);
-		grid.Update();
-		
-		initialized = true;
-	}
-
-=======
-	
->>>>>>> Stashed changes
 	public virtual void PrepareStats()
 	{
 		speed = baseSpeed;

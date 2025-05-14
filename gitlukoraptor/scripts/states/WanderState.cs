@@ -16,7 +16,7 @@ public partial class WanderState : State
     //variables
     private Random rdm = Pleb.rdm;
     private float moveRadius = 300f;
-    private Array<Vector2I> currentPath;
+    private Array<Vector2I> currentPath =  new Array<Vector2I>();
 
     public override void Enter()
     {
@@ -62,11 +62,14 @@ public partial class WanderState : State
 
         if (currentPath.Count > 1)
         {
-             currentPath.RemoveAt(0);    //remove the first point of the path as it's our position (we're already there)
-             var targetPos = _pleb.map.MapToLocal(currentPath[0]);
-        
-             _pleb.direction = (targetPos - _pleb.GlobalPosition).Normalized();
-             _pleb.Velocity = _pleb.direction * _pleb.speed;
+            Vector2 targetPos = _pleb.map.ToGlobal(_pleb.map.MapToLocal(currentPath[0]));
+            _pleb.direction = (targetPos - _pleb.GlobalPosition).Normalized(); 
+            _pleb.Velocity = _pleb.direction * _pleb.speed;
+            
+            if (_pleb.GlobalPosition.DistanceTo(targetPos) < 5f)
+            { 
+                currentPath.RemoveAt(0); //remove the first point of the path as it's our position (we're already there)
+            }
         }
         else
         {
@@ -90,22 +93,24 @@ public partial class WanderState : State
             EmitSignal(State.SignalName.StateChanged, this, "idleState");
         }
 		
-        Vector2I position = _pleb.map.LocalToMap(_pleb.ToLocal(_pleb.GlobalPosition));
-        int moveRadius = 100;
+        Vector2I position = _pleb.map.LocalToMap(_pleb.GlobalPosition);
+        int moveRadius = 25;
         int maxAttempts = 10;
 
         for (int i = 0; i < maxAttempts; i++)
         {
             Vector2I movePoint = new Vector2I(rdm.Next(-moveRadius, moveRadius), rdm.Next(-moveRadius, moveRadius));
-            Vector2I candidate = _pleb.map.LocalToMap(position + movePoint);
+            Vector2I candidate = position + movePoint;
             
             Vector2I cellType = _pleb.map.GetCellAtlasCoords(candidate);
-            if (cellType != _pleb.water || cellType != _pleb.shallow || cellType != _pleb.mountain)
+            if (cellType != LivingObject.water && cellType != LivingObject.shallow && cellType != LivingObject.mountain)
             {
                 candidate = new Vector2I(Mathf.Abs(candidate.X), Mathf.Abs(candidate.Y));   //has to be positive so it'll be on the map
                 if (candidate > _pleb.mapSize) //has to be on the map
                     candidate = _pleb.mapSize;
                 currentPath = astarGrid.GetIdPath(position, candidate);
+                currentPath.RemoveAt(0);    //removes the plebs position - lukoraptore sprav si to
+                return;
             }
         }
         //if all attempts would fail he stands still
