@@ -1,6 +1,7 @@
 ﻿using Godot;
 using System;
 using System.Collections.Generic;
+using GDC = Godot.Collections;
 
 public partial class LivingObject : CharacterBody2D, Entity
 {
@@ -15,16 +16,17 @@ public partial class LivingObject : CharacterBody2D, Entity
 	public NavigationAgent2D navAgent;
 	public static Rid navMap;
 	private static DetailPopup detailPopup;
-	public TileMapLayer map;
+	public static TileMapLayer map;
 	public bool initialized;
 
 	
 	//astar
-	public AStarGrid2D astarGrid = new AStarGrid2D();
-	public Vector2I mapSize;
+	public static AStarGrid2D astarGrid = new AStarGrid2D();
+	public static Vector2I mapSize;
 	public static readonly Vector2I shallow = new Vector2I(0, 0);	//tile atlas coords for types of surfaces
 	public static readonly Vector2I water = new Vector2I(1, 0);
 	public static readonly Vector2I mountain = new Vector2I(5, 0);
+	public GDC.Array<Vector2I> currentPath =  new GDC.Array<Vector2I>();
 	
 	//variables
 	public static readonly Random rdm = new Random();

@@ -2,31 +2,30 @@ using Godot;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
-using Godot.Collections;
+using GDC = Godot.Collections;
 
 public partial class WanderState : State
 {
     //nodes
     [Export] private Pleb _pleb;
     [Export] private Area2D detectionArea;
-    private NavigationAgent2D navAgent;
+    //private NavigationAgent2D navAgent;
     private AnimatedSprite2D animatedSprite;
     private AStarGrid2D astarGrid;
     
     //variables
     private Random rdm = Pleb.rdm;
     private float moveRadius = 300f;
-    private Array<Vector2I> currentPath =  new Array<Vector2I>();
+    private GDC.Array<Vector2I> currentPath;
 
     public override void Enter()
     {
+        currentPath = _pleb.currentPath;
         animatedSprite = _pleb.sprite;
         animatedSprite.Play("walk");
         
-        navAgent = _pleb.navAgent;
-        astarGrid = _pleb.astarGrid;
+        astarGrid = Pleb.astarGrid;
         RandomizePath();
-        //CallDeferred(nameof(RandomizeWander));
     }
 
     public override void Update(double delta)
@@ -45,11 +44,11 @@ public partial class WanderState : State
         
         if (_pleb.isOnWater)
         {
-            _pleb.memory[Pleb.MemoryKey.travelPoint] = navAgent.TargetPosition;
+            _pleb.memory[Pleb.MemoryKey.travelPoint] = currentPath.Last();
             Exit();
             EmitSignal(State.SignalName.StateChanged, this, "swimState");
         }
-        if (_pleb.hunger <= (_pleb.maxHunger / 2) && navAgent.IsNavigationFinished())
+        if (_pleb.hunger <= (_pleb.maxHunger / 2))  //add path finished condition
         {
             Exit();
             EmitSignal(State.SignalName.StateChanged, this, "gatherState");
@@ -62,7 +61,7 @@ public partial class WanderState : State
 
         if (currentPath.Count > 1)
         {
-            Vector2 targetPos = _pleb.map.ToGlobal(_pleb.map.MapToLocal(currentPath[0]));
+            Vector2 targetPos = Pleb.map.ToGlobal(Pleb.map.MapToLocal(currentPath[0]));
             _pleb.direction = (targetPos - _pleb.GlobalPosition).Normalized(); 
             _pleb.Velocity = _pleb.direction * _pleb.speed;
             
@@ -73,6 +72,7 @@ public partial class WanderState : State
         }
         else
         {
+            GD.Print("Choosing new path :D");
             RandomizePath();
         }
             
@@ -93,7 +93,7 @@ public partial class WanderState : State
             EmitSignal(State.SignalName.StateChanged, this, "idleState");
         }
 		
-        Vector2I position = _pleb.map.LocalToMap(_pleb.GlobalPosition);
+        Vector2I position = Pleb.map.LocalToMap(_pleb.GlobalPosition);
         int moveRadius = 25;
         int maxAttempts = 10;
 
@@ -102,14 +102,14 @@ public partial class WanderState : State
             Vector2I movePoint = new Vector2I(rdm.Next(-moveRadius, moveRadius), rdm.Next(-moveRadius, moveRadius));
             Vector2I candidate = position + movePoint;
             
-            Vector2I cellType = _pleb.map.GetCellAtlasCoords(candidate);
+            Vector2I cellType = Pleb.map.GetCellAtlasCoords(candidate);
             if (cellType != LivingObject.water && cellType != LivingObject.shallow && cellType != LivingObject.mountain)
             {
                 candidate = new Vector2I(Mathf.Abs(candidate.X), Mathf.Abs(candidate.Y));   //has to be positive so it'll be on the map
-                if (candidate > _pleb.mapSize) //has to be on the map
-                    candidate = _pleb.mapSize;
+                if (candidate > Pleb.mapSize) //has to be on the map
+                    candidate = Pleb.mapSize;
                 currentPath = astarGrid.GetIdPath(position, candidate);
-                currentPath.RemoveAt(0);    //removes the plebs position - lukoraptore sprav si to
+                currentPath.RemoveAt(0);
                 return;
             }
         }

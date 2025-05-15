@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GDC = Godot.Collections;
 
 public partial class gatherState : State
 {
@@ -11,19 +12,23 @@ public partial class gatherState : State
     private NatureObject closestFood;
     private NavigationAgent2D navAgent;
     private AnimatedSprite2D animatedSprite;
+    private AStarGrid2D astarGrid;
 
     //variables
     private Random rdm = Pleb.rdm;
     private double wanderTime;
     private bool foundFood = false;
+    private GDC.Array<Vector2I> currentPath;
     
     public override void Enter()
     {
+        astarGrid = Pleb.astarGrid;
+        currentPath = _pleb.currentPath;
         animatedSprite = _pleb.sprite;
         animatedSprite.Play("walk");
         
-        CallDeferred(nameof(SearchForFood));
-        navAgent = _pleb.navAgent;
+        //CallDeferred(nameof(SearchForFood));
+        //navAgent = _pleb.navAgent;
     }
     
     public override void Update(double delta)
@@ -43,7 +48,7 @@ public partial class gatherState : State
         if (_pleb.isOnWater)
         {
             //we need to make the target position the bush, so change the navLayers and make path cost
-            _pleb.memory[Pleb.MemoryKey.travelPoint] = navAgent.TargetPosition;
+            _pleb.memory[Pleb.MemoryKey.travelPoint] = currentPath.Last();
             Exit();
             EmitSignal(State.SignalName.StateChanged, this, "swimState");
         }
