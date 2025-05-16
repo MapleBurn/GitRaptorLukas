@@ -10,7 +10,7 @@ public partial class gatherState : State
     [Export] private Pleb _pleb;
     [Export] private Area2D detectionArea;
     private NatureObject closestFood;
-    private NavigationAgent2D navAgent;
+    //private NavigationAgent2D navAgent;
     private AnimatedSprite2D animatedSprite;
     private AStarGrid2D astarGrid;
 
@@ -48,7 +48,7 @@ public partial class gatherState : State
         if (_pleb.isOnWater)
         {
             //we need to make the target position the bush, so change the navLayers and make path cost
-            _pleb.memory[Pleb.MemoryKey.travelPoint] = currentPath.Last();
+            //_pleb.memory[Pleb.MemoryKey.travelPoint] = currentPath.Last();
             Exit();
             EmitSignal(State.SignalName.StateChanged, this, "swimState");
         }
@@ -60,16 +60,31 @@ public partial class gatherState : State
 
     public override void PhysicsUpdate(double delta)
     {
-        if (!foundFood)
+        Vector2 targetPos = Vector2.Zero;
+        if (currentPath.Count > 1)
+        {
+            targetPos = Pleb.map.ToGlobal(Pleb.map.MapToLocal(currentPath[0]));
+            _pleb.direction = (targetPos - _pleb.GlobalPosition).Normalized(); 
+            _pleb.Velocity = _pleb.direction * _pleb.speed;
+            
+            if (_pleb.GlobalPosition.DistanceTo(targetPos) < 5f)
+            { 
+                currentPath.RemoveAt(0); //remove the first point of the path as it's our position (we're already there)
+            }
+        }
+        else
         {
             SearchForFood();
         }
+        
+        if (!foundFood)
+            SearchForFood();
         
         if (foundFood) 
         {
             //Pleb found bush and takes food from it
             //massive issue - closestFood can get deleted, and then we're trying to access a disposed object
-            if (closestFood != null  && navAgent.IsNavigationFinished())
+            if (closestFood != null  && _pleb.GlobalPosition.DistanceTo(targetPos) < 5f)
             {
                 int takeAmount = 100 - _pleb.hunger;
                 if (takeAmount <= closestFood.resourceCount)
@@ -83,18 +98,11 @@ public partial class gatherState : State
                     closestFood.resourceCount = 0;
                 }
                 closestFood.health -= rdm.Next(5);
-                if(_pleb.hunger < (_pleb.maxHunger / 100) * 80)
+                if(_pleb.hunger < (_pleb.maxHunger / 100f) * 80)
                 {
                     foundFood = false;
                 }
             }
-        }
-        
-        if (!navAgent.IsNavigationFinished())
-        {   
-            Vector2 currentAgentPos = _pleb.GlobalPosition;
-            Vector2 nextPos = navAgent.GetNextPathPosition();
-            _pleb.Velocity = currentAgentPos.DirectionTo(nextPos) * _pleb.speed;
         }
         
         _pleb.MoveAndSlide();
@@ -102,6 +110,8 @@ public partial class gatherState : State
     
     public override void Exit()
     {
+        _pleb.currentPath = currentPath;
+        animatedSprite.Stop();
     }
     
     private void SearchForFood()    //pleb searches in the detection area and chooses the closest bush with food as target if there is any
@@ -132,7 +142,10 @@ public partial class gatherState : State
                                     closestFood = foodSource;
                                 }
 
-                                navAgent.TargetPosition = closestFood.GlobalPosition;
+                                var targetPos = Pleb.map.LocalToMap(closestFood.GlobalPosition);
+                                var startPos = Pleb.map.LocalToMap(position);
+                                astarGrid.GetIdPath(startPos, targetPos);
+                                currentPath.RemoveAt(0);
                             }
                         }
                     }
@@ -145,47 +158,44 @@ public partial class gatherState : State
         {
             if (_pleb.memory.TryGetValue(Pleb.MemoryKey.lastSeenBush, out Vector2 lastSeenBush))
             {
-                navAgent.TargetPosition = lastSeenBush;
-                if (navAgent.IsNavigationFinished())
+                Vector2I targetPos = Pleb.map.LocalToMap(lastSeenBush);
+                Vector2 endPos = Pleb.map.ToGlobal(Pleb.map.MapToLocal(currentPath[0]));
+                if (_pleb.GlobalPosition.DistanceTo(endPos) < 5f)
                 {
                         _pleb.memory.Remove(Pleb.MemoryKey.lastSeenBush);
                 }
             }
             else
             {
-                RandomizeWander();
+                RandomizePath();
             }
         }
     }
     
-    private void RandomizeWander()
+    private void RandomizePath()
     {
-        Vector2 origin = _pleb.GlobalPosition;
-        float minPathLength = 50f;
-        Rid map = Pleb.navMap;
+        Vector2I position = Pleb.map.LocalToMap(_pleb.GlobalPosition);
+        int moveRadius = 25;
         int maxAttempts = 10;
-        float moveRadius = 200f;
 
         for (int i = 0; i < maxAttempts; i++)
         {
-            // Generate a random point in a circle
-            float angle = GD.Randf() * Mathf.Tau;
-            float distance = GD.Randf() * moveRadius;
-            Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
-            Vector2 candidate = origin + offset;
-			
-            // Project to nearest point on navigation mesh
-            Vector2 projected = NavigationServer2D.MapGetClosestPoint(map, candidate);
-			
-            // Check if path is valid
-            var path = NavigationServer2D.MapGetPath(map, origin, projected, false);
-            if (path.Length > 0 && (projected - origin).Length() > minPathLength)
+            Vector2I movePoint = new Vector2I(rdm.Next(-moveRadius, moveRadius), rdm.Next(-moveRadius, moveRadius));
+            Vector2I candidate = position + movePoint;
+            
+            Vector2I cellType = Pleb.map.GetCellAtlasCoords(candidate);
+            if (cellType != LivingObject.water && cellType != LivingObject.shallow && cellType != LivingObject.mountain)
             {
-                navAgent.TargetPosition = projected;
+                candidate = new Vector2I(Mathf.Abs(candidate.X), Mathf.Abs(candidate.Y));   //has to be positive so it'll be on the map
+                if (candidate > Pleb.mapSize) //has to be on the map
+                    candidate = Pleb.mapSize;
+                currentPath = astarGrid.GetIdPath(position, candidate);
+                currentPath.RemoveAt(0);
                 return;
             }
         }
         //if all attempts would fail he stands still
+        GD.Print("I didn't find any path ._.");
         Exit();
         EmitSignal(State.SignalName.StateChanged, this, "idleState");
     }

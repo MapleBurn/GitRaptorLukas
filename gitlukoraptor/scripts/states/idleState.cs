@@ -32,7 +32,7 @@ public partial class idleState : State
             Exit();
             EmitSignal(State.SignalName.StateChanged, this, "swimState");
         }
-        if (_pleb.hunger <= (_pleb.maxHunger / 2) && idleTime <= 0)
+        if (_pleb.hunger <= (_pleb.maxHunger / 2f) && idleTime <= 0)
         {
             Exit();
             EmitSignal(State.SignalName.StateChanged, this, "gatherState");

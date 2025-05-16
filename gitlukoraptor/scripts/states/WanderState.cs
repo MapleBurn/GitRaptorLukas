@@ -9,7 +9,6 @@ public partial class WanderState : State
     //nodes
     [Export] private Pleb _pleb;
     [Export] private Area2D detectionArea;
-    //private NavigationAgent2D navAgent;
     private AnimatedSprite2D animatedSprite;
     private AStarGrid2D astarGrid;
     
@@ -25,7 +24,8 @@ public partial class WanderState : State
         animatedSprite.Play("walk");
         
         astarGrid = Pleb.astarGrid;
-        RandomizePath();
+        if (currentPath.Count < 1)
+            RandomizePath();
     }
 
     public override void Update(double delta)
@@ -44,11 +44,11 @@ public partial class WanderState : State
         
         if (_pleb.isOnWater)
         {
-            _pleb.memory[Pleb.MemoryKey.travelPoint] = currentPath.Last();
+            //_pleb.memory[Pleb.MemoryKey.travelPoint] = currentPath.Last();
             Exit();
             EmitSignal(State.SignalName.StateChanged, this, "swimState");
         }
-        if (_pleb.hunger <= (_pleb.maxHunger / 2))  //add path finished condition
+        if (_pleb.hunger <= (_pleb.maxHunger / 2f))  //add path finished condition
         {
             Exit();
             EmitSignal(State.SignalName.StateChanged, this, "gatherState");
@@ -81,6 +81,7 @@ public partial class WanderState : State
 
     public override void Exit()
     {
+        _pleb.currentPath = currentPath;
         animatedSprite.Stop();
     }
     
@@ -109,7 +110,7 @@ public partial class WanderState : State
                 if (candidate > Pleb.mapSize) //has to be on the map
                     candidate = Pleb.mapSize;
                 currentPath = astarGrid.GetIdPath(position, candidate);
-                currentPath.RemoveAt(0);
+                //currentPath.RemoveAt(0);
                 return;
             }
         }

@@ -54,7 +54,7 @@ public partial class SwimState : State
 
     public override void PhysicsUpdate(double delta)
     {
-        if (currentPath.Count > 1)
+        if (currentPath.Count > 0)
         {
             Vector2 targetPos = Pleb.map.ToGlobal(Pleb.map.MapToLocal(currentPath[0]));
             _pleb.direction = (targetPos - _pleb.GlobalPosition).Normalized(); 
@@ -67,7 +67,7 @@ public partial class SwimState : State
         }
         else
         {
-            GD.Print("Choosing new path :(");
+            GD.Print("Choosing new path :( (never should happen)");
             FindShore();
         }
             
@@ -77,15 +77,16 @@ public partial class SwimState : State
     public override void Exit()
     {
         animatedSprite.Stop();
-        
+        _pleb.currentPath = currentPath;
         _pleb.speed = _pleb.baseSpeed;
     }
 
-    private void FindShore()
+    private void FindShore()    //later change to not use NavServer
     {
         Rid map = Pleb.navMap;
         Vector2 targetPos = NavigationServer2D.MapGetClosestPoint(map, _pleb.GlobalPosition);
-        targetPos = Pleb.map.LocalToMap(targetPos);
+        Vector2 targetDir = targetPos.Normalized();
+        targetPos = Pleb.map.LocalToMap(targetPos + (targetDir * 32));
         Vector2I position = Pleb.map.LocalToMap(_pleb.GlobalPosition);
         
         currentPath = astarGrid.GetIdPath(position, (Vector2I)targetPos);

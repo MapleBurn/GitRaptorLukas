@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://c8cms1wu7ydc6"]
+[gd_scene load_steps=35 format=3 uid="uid://c8cms1wu7ydc6"]
 
 [ext_resource type="Script" uid="uid://dyfwlxp8bvniu" path="res://scripts/Pleb.cs" id="1_us0bb"]
 [ext_resource type="Texture2D" uid="uid://b2iguh5kc81fe" path="res://assets/pleb/pleb_death-Sheet.png" id="2_c2tjx"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://c4fpxuuen8cef" path="res://scripts/states/WanderState.cs" id="8_n2vii"]
 [ext_resource type="Script" uid="uid://bo8no2ges0ynq" path="res://scripts/states/SwimState.cs" id="11_iaafh"]
 [ext_resource type="Script" uid="uid://t082d6dpqymm" path="res://scripts/states/DeathState.cs" id="13_x7nae"]
+[ext_resource type="Script" uid="uid://c73bybclqt3vw" path="res://scripts/DebugPathDraw.cs" id="14_hwort"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jqgdk"]
 atlas = ExtResource("2_c2tjx")
@@ -225,5 +226,8 @@ one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 debug_enabled = true
+
+[node name="drawer" type="Node2D" parent="."]
+script = ExtResource("14_hwort")
 
 [connection signal="timeout" from="DieTimer" to="." method="DieTimerTimeout"]
