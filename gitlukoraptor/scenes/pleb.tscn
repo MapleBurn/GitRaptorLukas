@@ -186,19 +186,17 @@ inicialState = NodePath("idleState")
 script = ExtResource("4_yeii3")
 _pleb = NodePath("../..")
 
-[node name="wanderState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb", "detectionArea")]
+[node name="wanderState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb")]
 script = ExtResource("8_n2vii")
 _pleb = NodePath("../..")
-detectionArea = NodePath("../../DetectionArea")
 
 [node name="swimState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb")]
 script = ExtResource("11_iaafh")
 _pleb = NodePath("../..")
 
-[node name="gatherState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb", "detectionArea")]
+[node name="gatherState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb")]
 script = ExtResource("6_c2tjx")
 _pleb = NodePath("../..")
-detectionArea = NodePath("../../DetectionArea")
 
 [node name="attackState" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pleb")]
 script = ExtResource("7_whbhq")
@@ -227,7 +225,7 @@ one_shot = true
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 debug_enabled = true
 
-[node name="drawer" type="Node2D" parent="."]
+[node name="debugDrawer" type="Node2D" parent="."]
 script = ExtResource("14_hwort")
 
 [connection signal="timeout" from="DieTimer" to="." method="DieTimerTimeout"]

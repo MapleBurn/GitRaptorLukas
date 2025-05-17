@@ -8,7 +8,7 @@ public partial class gatherState : State
 {
     //nodes
     [Export] private Pleb _pleb;
-    [Export] private Area2D detectionArea;
+    private Area2D detectionArea;
     private NatureObject closestFood;
     //private NavigationAgent2D navAgent;
     private AnimatedSprite2D animatedSprite;
@@ -25,6 +25,7 @@ public partial class gatherState : State
         astarGrid = Pleb.astarGrid;
         currentPath = _pleb.currentPath;
         animatedSprite = _pleb.sprite;
+        detectionArea = _pleb.detectionArea;
         animatedSprite.Play("walk");
         
         //CallDeferred(nameof(SearchForFood));
@@ -105,6 +106,7 @@ public partial class gatherState : State
             }
         }
         
+        _pleb.currentPath = currentPath;
         _pleb.MoveAndSlide();
     }
     

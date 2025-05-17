@@ -8,7 +8,7 @@ public partial class WanderState : State
 {
     //nodes
     [Export] private Pleb _pleb;
-    [Export] private Area2D detectionArea;
+    private Area2D detectionArea;
     private AnimatedSprite2D animatedSprite;
     private AStarGrid2D astarGrid;
     
@@ -21,6 +21,7 @@ public partial class WanderState : State
     {
         currentPath = _pleb.currentPath;
         animatedSprite = _pleb.sprite;
+        detectionArea = _pleb.detectionArea;
         animatedSprite.Play("walk");
         
         astarGrid = Pleb.astarGrid;
@@ -76,6 +77,7 @@ public partial class WanderState : State
             RandomizePath();
         }
             
+        _pleb.currentPath = currentPath;
         _pleb.MoveAndSlide();
     }
 

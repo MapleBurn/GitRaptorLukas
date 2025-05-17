@@ -17,6 +17,7 @@ public partial class LivingObject : CharacterBody2D, Entity
 	public static Rid navMap;
 	private static DetailPopup detailPopup;
 	public static TileMapLayer map;
+	public Area2D detectionArea;
 	public bool initialized;
 
 	
@@ -62,6 +63,7 @@ public partial class LivingObject : CharacterBody2D, Entity
 		detailPopup = GetNode<DetailPopup>("/root/world1/Hud/DetailPopup");
 		map = GetNode<TileMapLayer>("/root/world1/worldgen/GroundTiles");
 		navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
+		detectionArea =  GetNode<Area2D>("DetectionArea");
 		InitializeAStarGrid();
 		UpdateAStar();
 		initialized = true;

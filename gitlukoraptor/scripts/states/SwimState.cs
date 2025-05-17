@@ -71,6 +71,7 @@ public partial class SwimState : State
             FindShore();
         }
             
+        _pleb.currentPath = currentPath;
         _pleb.MoveAndSlide();
     }
 
