@@ -15,8 +15,8 @@
 [ext_resource type="Script" uid="uid://copwy85s3g8xd" path="res://addons/gaea/tile_info/tilemap_tile_info.gd" id="10_cq7ai"]
 [ext_resource type="PackedScene" uid="uid://cv57wkyhn3j03" path="res://scenes/bush_spawner.tscn" id="14_ekkqh"]
 [ext_resource type="PackedScene" uid="uid://ccwrkj3si2lij" path="res://scenes/hud.tscn" id="14_l6637"]
-[ext_resource type="Script" uid="uid://lvwdeu8svsoj" path="res://scripts/CameraController.cs" id="14_qheke"]
-[ext_resource type="Script" uid="uid://endklfigkr16" path="res://scripts/Ui.cs" id="15_l6637"]
+[ext_resource type="Script" uid="uid://lvwdeu8svsoj" path="res://scripts/UI/CameraController.cs" id="14_qheke"]
+[ext_resource type="Script" uid="uid://endklfigkr16" path="res://scripts/UI/Ui.cs" id="15_l6637"]
 
 [sub_resource type="Image" id="Image_0e5nu"]
 data = {

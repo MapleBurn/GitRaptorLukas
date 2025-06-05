@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://c5ou6dhljptgf"]
 
-[ext_resource type="Script" uid="uid://b6ca6edx8fipu" path="res://scripts/DetailPopup.cs" id="1_mbhj7"]
+[ext_resource type="Script" uid="uid://b6ca6edx8fipu" path="res://scripts/UI/DetailPopup.cs" id="1_mbhj7"]
+
 
 [node name="DetailPopup" type="Panel"]
 anchors_preset = 2

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b6qujub67ohl5"]
 
-[ext_resource type="Script" uid="uid://dg5xxerk18yna" path="res://scripts/Bush.cs" id="1_ehqem"]
+[ext_resource type="Script" uid="uid://dg5xxerk18yna" path="res://scripts/objects/Bush.cs" id="1_ehqem"]
 [ext_resource type="Texture2D" uid="uid://wpb838olcc5" path="res://assets/bush.png" id="1_lad4k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lad4k"]

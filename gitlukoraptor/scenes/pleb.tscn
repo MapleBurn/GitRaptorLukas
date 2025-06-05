@@ -1,10 +1,10 @@
 [gd_scene load_steps=34 format=3 uid="uid://c8cms1wu7ydc6"]
 
-[ext_resource type="Script" uid="uid://dyfwlxp8bvniu" path="res://scripts/Pleb.cs" id="1_us0bb"]
+[ext_resource type="Script" uid="uid://dyfwlxp8bvniu" path="res://scripts/objects/Pleb.cs" id="1_us0bb"]
 [ext_resource type="Texture2D" uid="uid://b2iguh5kc81fe" path="res://assets/pleb/pleb_death-Sheet.png" id="2_c2tjx"]
 [ext_resource type="Texture2D" uid="uid://clksyeod62nfv" path="res://assets/pleb/pleb_idle-Sheet.png" id="2_yeii3"]
 [ext_resource type="Texture2D" uid="uid://bap0fr2ewbela" path="res://assets/pleb/pleb_walk-Sheet.png" id="3_c2tjx"]
-[ext_resource type="Script" uid="uid://cvyusjv6pw35h" path="res://scripts/StateMachine.cs" id="3_tp18g"]
+[ext_resource type="Script" uid="uid://cvyusjv6pw35h" path="res://scripts/states/StateMachine.cs" id="3_tp18g"]
 [ext_resource type="Texture2D" uid="uid://cqbaqponnbl5i" path="res://assets/pleb/pleb_swim-Sheet.png" id="4_whbhq"]
 [ext_resource type="Script" uid="uid://cxo3g2kut1d2v" path="res://scripts/states/idleState.cs" id="4_yeii3"]
 [ext_resource type="Script" uid="uid://ib5bbgvxpdie" path="res://scripts/states/gatherState.cs" id="6_c2tjx"]
@@ -13,6 +13,10 @@
 [ext_resource type="Script" uid="uid://c4fpxuuen8cef" path="res://scripts/states/WanderState.cs" id="8_n2vii"]
 [ext_resource type="Script" uid="uid://bo8no2ges0ynq" path="res://scripts/states/SwimState.cs" id="11_iaafh"]
 [ext_resource type="Script" uid="uid://t082d6dpqymm" path="res://scripts/states/DeathState.cs" id="13_x7nae"]
+<<<<<<< Updated upstream
+=======
+[ext_resource type="Script" uid="uid://c73bybclqt3vw" path="res://scripts/UI/DebugPathDraw.cs" id="14_hwort"]
+>>>>>>> Stashed changes
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jqgdk"]
 atlas = ExtResource("2_c2tjx")
